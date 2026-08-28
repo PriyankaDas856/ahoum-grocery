@@ -35,11 +35,23 @@ function Auth() {
         navigate('/home', { replace: true })
       }
     } catch (error: unknown) {
-      console.error('Google sign-in failed:', error)
-
-      setGoogleError(
-        'Google sign-in was unsuccessful. Please try again.',
+      console.error(
+        'Google sign-in failed:',
+        error,
       )
+
+      if (
+        error instanceof Error &&
+        error.message
+      ) {
+        setGoogleError(
+          'Google sign-in was unsuccessful. Please try again.',
+        )
+      } else {
+        setGoogleError(
+          'Unable to sign in with Google. Please try again.',
+        )
+      }
     } finally {
       setGoogleLoading(false)
     }
@@ -146,7 +158,7 @@ function Auth() {
               'Facebook sign-in is not configured yet.',
             )
           }}
-          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#4F68AD] focus:ring-offset-2"
+          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white transition hover:bg-[#455D9E] focus:outline-none focus:ring-2 focus:ring-[#4F68AD] focus:ring-offset-2"
         >
           <span className="mr-4 text-xl font-bold">
             f
@@ -160,7 +172,7 @@ function Auth() {
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-[#53B175]"
+            className="font-semibold text-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175]"
           >
             Log In
           </Link>
@@ -171,7 +183,7 @@ function Auth() {
           Don't have an account?{' '}
           <Link
             to="/signup"
-            className="font-semibold text-[#53B175]"
+            className="font-semibold text-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175]"
           >
             Sign Up
           </Link>
