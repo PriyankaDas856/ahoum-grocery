@@ -8,16 +8,16 @@ function CategoryListing() {
   const { category } = useParams()
   const [searchParams] = useSearchParams()
 
-  const decodedCategory = decodeURIComponent(category ?? '')
-  const selectedSubcategories =
-    searchParams.getAll('subcategory')
-
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const decodedCategory = decodeURIComponent(category ?? '')
+
   useEffect(() => {
     const controller = new AbortController()
+    const selectedSubcategories =
+      searchParams.getAll('subcategory')
 
     getProducts(controller.signal)
       .then((allProducts) => {
@@ -56,14 +56,10 @@ function CategoryListing() {
       })
 
     return () => controller.abort()
-  }, [
-    decodedCategory,
-    selectedSubcategories.join('|'),
-  ])
+  }, [decodedCategory, searchParams])
 
   return (
     <div className="min-h-screen px-4 pt-5 md:px-8 md:pt-8">
-      {/* Header */}
       <header className="mx-auto flex max-w-[1100px] items-center justify-between">
         <Link
           to="/explore"
@@ -86,7 +82,6 @@ function CategoryListing() {
         </Link>
       </header>
 
-      {/* Products */}
       <main className="mx-auto mt-7 max-w-[1100px] md:mt-10">
         {loading ? (
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
@@ -115,7 +110,6 @@ function CategoryListing() {
           </div>
         ) : (
           <>
-            {/* Result count + filter */}
             <div className="mb-4 flex items-center justify-between">
               <p className="text-xs text-[#7C7C7C] md:text-sm">
                 {products.length}{' '}
@@ -135,7 +129,6 @@ function CategoryListing() {
               </Link>
             </div>
 
-            {/* Empty state */}
             {products.length === 0 ? (
               <div className="flex min-h-64 flex-col items-center justify-center text-center">
                 <p className="text-sm font-semibold text-[#181725]">
