@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import type { Product } from '../api/types'
+import { loadCart, saveCart } from './cartStorage'
+import { reconcileCart } from '../lib/reconcileCart'
 
 export interface CartItem {
   productId: string
@@ -12,11 +14,14 @@ interface CartState {
   addItem: (product: Product) => void
   removeItem: (productId: string) => void
   updateQuantity: (productId: string, quantity: number) => void
+  reconcile: (products: Product[]) => void
   clearCart: () => void
 }
 
+const initialItems = loadCart()
+
 export const useCartStore = create<CartState>((set) => ({
-  items: [],
+  items: initialItems,
 
   addItem: (product) =>
     set((state) => {
@@ -24,9 +29,8 @@ export const useCartStore = create<CartState>((set) => ({
         (item) => item.productId === product.id,
       )
 
-      if (existingItem) {
-        return {
-          items: state.items.map((item) =>
+      const items = existingItem
+        ? state.items.map((item) =>
             item.productId === product.id
               ? {
                   ...item,
@@ -36,47 +40,63 @@ export const useCartStore = create<CartState>((set) => ({
                   ),
                 }
               : item,
-          ),
-        }
-      }
+          )
+        : [
+            ...state.items,
+            {
+              productId: product.id,
+              quantity: 1,
+              priceAtAdd: product.price,
+            },
+          ]
 
-      return {
-        items: [
-          ...state.items,
-          {
-            productId: product.id,
-            quantity: 1,
-            priceAtAdd: product.price,
-          },
-        ],
-      }
+      saveCart(items)
+
+      return { items }
     }),
 
   removeItem: (productId) =>
-    set((state) => ({
-      items: state.items.filter(
+    set((state) => {
+      const items = state.items.filter(
         (item) => item.productId !== productId,
-      ),
-    })),
+      )
+
+      saveCart(items)
+
+      return { items }
+    }),
 
   updateQuantity: (productId, quantity) =>
     set((state) => {
-      if (quantity <= 0) {
-        return {
-          items: state.items.filter(
-            (item) => item.productId !== productId,
-          ),
-        }
-      }
+      const items =
+        quantity <= 0
+          ? state.items.filter(
+              (item) => item.productId !== productId,
+            )
+          : state.items.map((item) =>
+              item.productId === productId
+                ? { ...item, quantity }
+                : item,
+            )
+
+      saveCart(items)
+
+      return { items }
+    }),
+
+  reconcile: (products) =>
+    set((state) => {
+      const result = reconcileCart(state.items, products)
+
+      saveCart(result.items)
 
       return {
-        items: state.items.map((item) =>
-          item.productId === productId
-            ? { ...item, quantity }
-            : item,
-        ),
+        items: result.items,
       }
     }),
 
-  clearCart: () => set({ items: [] }),
+  clearCart: () => {
+    saveCart([])
+    set({ items: [] })
+  },
 }))
