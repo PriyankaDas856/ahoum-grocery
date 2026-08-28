@@ -1,6 +1,7 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AppShell from '../components/layout/AppShell'
 
+import Splash from '../pages/Splash'
 import Home from '../pages/Home'
 import Explore from '../pages/Explore'
 import CategoryListing from '../pages/CategoryListing'
@@ -25,10 +26,10 @@ export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Entry point */}
+        {/* Splash Screen */}
         <Route
           path="/"
-          element={<Navigate to="/welcome" replace />}
+          element={<Splash />}
         />
 
         {/* Onboarding / Authentication */}
@@ -67,7 +68,7 @@ export function AppRouter() {
           element={<Signup />}
         />
 
-        {/* Main application */}
+        {/* Main Application */}
         <Route element={<AppShell />}>
           <Route
             path="/home"
