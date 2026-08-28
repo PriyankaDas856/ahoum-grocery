@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   GoogleAuthProvider,
-  signInWithPopup,
+  getRedirectResult,
+  signInWithRedirect,
 } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../lib/firebase'
@@ -15,6 +16,31 @@ function Auth() {
   const [googleError, setGoogleError] =
     useState<string | null>(null)
 
+  useEffect(() => {
+    const checkGoogleRedirect = async () => {
+      try {
+        const result = await getRedirectResult(auth)
+
+        if (result?.user) {
+          navigate('/')
+        }
+      } catch (error: unknown) {
+        console.error(
+          'Google redirect sign-in failed:',
+          error,
+        )
+
+        setGoogleError(
+          'Google sign-in was unsuccessful. Please try again.',
+        )
+
+        setGoogleLoading(false)
+      }
+    }
+
+    void checkGoogleRedirect()
+  }, [navigate])
+
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true)
     setGoogleError(null)
@@ -22,25 +48,14 @@ function Auth() {
     try {
       const provider = new GoogleAuthProvider()
 
-      await signInWithPopup(auth, provider)
-
-      navigate('/home')
+      await signInWithRedirect(auth, provider)
     } catch (error: unknown) {
       console.error('Google sign-in failed:', error)
 
-      if (
-        error instanceof Error &&
-        error.message
-      ) {
-        setGoogleError(
-          'Google sign-in was unsuccessful. Please try again.',
-        )
-      } else {
-        setGoogleError(
-          'Unable to sign in with Google. Please try again.',
-        )
-      }
-    } finally {
+      setGoogleError(
+        'Unable to sign in with Google. Please try again.',
+      )
+
       setGoogleLoading(false)
     }
   }
@@ -124,7 +139,7 @@ function Auth() {
           </span>
 
           {googleLoading
-            ? 'Signing in...'
+            ? 'Redirecting...'
             : 'Continue with Google'}
         </button>
 
