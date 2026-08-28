@@ -7,22 +7,19 @@ function Welcome() {
     <div className="min-h-screen bg-[#F2F8F3]">
       <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col lg:flex-row">
         {/* Image section */}
-        <div className="relative h-[62vh] min-h-[500px] w-full overflow-hidden bg-[#E8F1E8] lg:h-screen lg:w-[55%]">
-          {/* Soft background */}
-          <div className="absolute inset-0 bg-[#E8F1E8]" />
-
-          {/* Full grocery person image */}
+        <div className="relative h-screen min-h-[600px] w-full overflow-hidden bg-[#E8F1E8] lg:h-screen lg:w-[55%]">
+          {/* Grocery person image */}
           <img
             src="/images/grocery-person.png"
             alt="Grocery delivery person"
-            className="relative z-10 h-full w-full object-contain object-center"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
 
-          {/* Mobile overlay */}
-          <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/65 via-transparent to-transparent lg:hidden" />
+          {/* Dark gradient for mobile readability */}
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/5 to-transparent lg:hidden" />
 
-          {/* Mobile text */}
-          <div className="absolute inset-x-0 bottom-8 z-30 px-6 text-center text-white lg:hidden">
+          {/* Mobile content */}
+          <div className="absolute inset-x-0 bottom-8 z-20 px-6 text-center text-white lg:hidden">
             <div className="mb-3 text-4xl">
               🥕
             </div>
@@ -33,7 +30,7 @@ function Welcome() {
               to our store
             </h1>
 
-            <p className="mt-3 text-sm text-white/85">
+            <p className="mt-3 text-sm text-white/90">
               Get your groceries in as fast as one hour
             </p>
 
