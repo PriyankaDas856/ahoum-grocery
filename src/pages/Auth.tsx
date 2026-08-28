@@ -60,17 +60,18 @@ function Auth() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero image */}
-      <div className="relative h-[45vh] min-h-[280px] w-full overflow-hidden bg-white sm:h-[48vh] lg:h-[52vh]">
+      <section className="relative flex h-[42vh] min-h-[260px] w-full items-center justify-center overflow-hidden bg-white sm:h-[46vh] sm:min-h-[300px] lg:h-[48vh] lg:min-h-[360px]">
         <img
           src="/images/auth.png"
           alt="Fresh groceries"
-          className="absolute inset-0 h-full w-full object-contain object-center"
+          className="h-full w-full object-contain object-center"
         />
-      </div>
+      </section>
 
-      {/* Content */}
-      <main className="px-5 pt-8">
-        <h1 className="text-[21px] font-bold leading-7 text-[#181725]">
+      {/* Authentication content */}
+      <main className="mx-auto w-full max-w-[520px] px-5 pb-10 pt-7 sm:px-8 sm:pt-9 lg:max-w-[560px] lg:px-10 lg:pt-10">
+        {/* Heading */}
+        <h1 className="text-[21px] font-bold leading-7 text-[#181725] sm:text-2xl lg:text-[26px] lg:leading-8">
           Get your groceries
           <br />
           with nectar
@@ -80,7 +81,7 @@ function Auth() {
         <button
           type="button"
           onClick={() => navigate('/auth/phone')}
-          className="mt-7 flex h-12 w-full items-center border-b border-[#E2E2E2] text-left focus:outline-none focus:ring-2 focus:ring-[#53B175] focus:ring-offset-2"
+          className="mt-7 flex h-12 w-full items-center border-b border-[#E2E2E2] text-left transition focus:outline-none focus:ring-2 focus:ring-[#53B175] focus:ring-offset-2 sm:mt-8"
         >
           <span className="mr-3 text-lg">
             🇮🇳
@@ -96,10 +97,10 @@ function Auth() {
         </button>
 
         {/* Divider */}
-        <div className="my-7 flex items-center gap-4">
+        <div className="my-7 flex items-center gap-3 sm:my-8 sm:gap-4">
           <div className="h-px flex-1 bg-[#E2E2E2]" />
 
-          <span className="whitespace-nowrap text-xs text-[#7C7C7C]">
+          <span className="whitespace-nowrap text-[11px] text-[#7C7C7C] sm:text-xs">
             Or connect with social media
           </span>
 
@@ -126,7 +127,7 @@ function Auth() {
         {googleError && (
           <p
             role="alert"
-            className="mt-3 text-center text-xs text-red-500"
+            className="mt-3 text-center text-xs leading-5 text-red-500"
           >
             {googleError}
           </p>
@@ -140,7 +141,7 @@ function Auth() {
               'Facebook sign-in is not configured yet.',
             )
           }}
-          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white transition hover:bg-[#455D9E] focus:outline-none focus:ring-2 focus:ring-[#4F68AD] focus:ring-offset-2"
+          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white transition hover:bg-[#455D9E] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#4F68AD] focus:ring-offset-2"
         >
           <span className="mr-4 text-xl font-bold">
             f
@@ -150,7 +151,7 @@ function Auth() {
         </button>
 
         {/* Existing account */}
-        <div className="mt-8 text-center text-xs text-[#7C7C7C]">
+        <div className="mt-8 text-center text-xs text-[#7C7C7C] sm:mt-9 sm:text-sm">
           Already have an account?{' '}
           <Link
             to="/login"
@@ -161,8 +162,8 @@ function Auth() {
         </div>
 
         {/* New account */}
-        <div className="mt-3 pb-8 text-center text-xs text-[#7C7C7C]">
-          Don't have an account?{' '}
+        <div className="mt-3 pb-4 text-center text-xs text-[#7C7C7C] sm:text-sm">
+          Don&apos;t have an account?{' '}
           <Link
             to="/signup"
             className="font-semibold text-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175]"
