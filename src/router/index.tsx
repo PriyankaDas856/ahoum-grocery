@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import AppShell from '../components/layout/AppShell'
 
 import Home from '../pages/Home'
@@ -25,8 +25,13 @@ export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Onboarding / Authentication */}
+        {/* Entry point */}
+        <Route
+          path="/"
+          element={<Navigate to="/welcome" replace />}
+        />
 
+        {/* Onboarding / Authentication */}
         <Route
           path="/welcome"
           element={<Welcome />}
@@ -63,10 +68,9 @@ export function AppRouter() {
         />
 
         {/* Main application */}
-
         <Route element={<AppShell />}>
           <Route
-            path="/"
+            path="/home"
             element={<Home />}
           />
 
