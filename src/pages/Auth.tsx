@@ -22,7 +22,7 @@ function Auth() {
         const result = await getRedirectResult(auth)
 
         if (result?.user) {
-          navigate('/')
+          navigate('/home', { replace: true })
         }
       } catch (error: unknown) {
         console.error(
@@ -33,7 +33,7 @@ function Auth() {
         setGoogleError(
           'Google sign-in was unsuccessful. Please try again.',
         )
-
+      } finally {
         setGoogleLoading(false)
       }
     }
