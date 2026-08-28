@@ -1,0 +1,156 @@
+[
+  {
+    "id": "organic-bananas",
+    "name": "Organic Bananas",
+    "category": "Fruits & Vegetables",
+    "subcategory": "Fruits",
+    "price": 4.99,
+    "unit": "per kg",
+    "stock": 20,
+    "image": "/images/organic-bananas.png",
+    "rating": 4.5
+  },
+  {
+    "id": "natural-red-apple",
+    "name": "Natural Red Apple",
+    "category": "Fruits & Vegetables",
+    "subcategory": "Fruits",
+    "price": 4.99,
+    "unit": "per kg",
+    "stock": 15,
+    "image": "/images/natural-red-apple.png",
+    "rating": 4.8
+  },
+  {
+    "id": "bell-pepper-red",
+    "name": "Bell Pepper Red",
+    "category": "Fruits & Vegetables",
+    "subcategory": "Vegetables",
+    "price": 4.99,
+    "unit": "per kg",
+    "stock": 12,
+    "image": "/images/bell-pepper-red.png",
+    "rating": 4.6
+  },
+  {
+    "id": "egg-chicken-red",
+    "name": "Egg Chicken Red",
+    "category": "Dairy & Eggs",
+    "subcategory": "Eggs",
+    "price": 1.99,
+    "unit": "4 pcs",
+    "stock": 25,
+    "image": "/images/egg-chicken-red.png",
+    "rating": 4.4
+  },
+  {
+    "id": "egg-chicken-white",
+    "name": "Egg Chicken White",
+    "category": "Dairy & Eggs",
+    "subcategory": "Eggs",
+    "price": 1.50,
+    "unit": "4 pcs",
+    "stock": 25,
+    "image": "/images/egg-chicken-white.png",
+    "rating": 4.3
+  },
+  {
+    "id": "egg-potato",
+    "name": "Egg Potato",
+    "category": "Dairy & Eggs",
+    "subcategory": "Eggs",
+    "price": 15.99,
+    "unit": "2 pcs",
+    "stock": 10,
+    "image": "/images/egg-potato.png",
+    "rating": 4.2
+  },
+  {
+    "id": "egg-noodles",
+    "name": "Egg Noodles",
+    "category": "Bakery & Snacks",
+    "subcategory": "Noodles",
+    "price": 15.99,
+    "unit": "2 pcs",
+    "stock": 18,
+    "image": "/images/egg-noodles.png",
+    "rating": 4.5
+  },
+  {
+    "id": "sprite-can",
+    "name": "Sprite Can",
+    "category": "Beverages",
+    "subcategory": "Soft Drinks",
+    "price": 1.50,
+    "unit": "325ml",
+    "stock": 30,
+    "image": "/images/sprite-can.png",
+    "rating": 4.4
+  },
+  {
+    "id": "diet-coke",
+    "name": "Diet Coke",
+    "category": "Beverages",
+    "subcategory": "Soft Drinks",
+    "price": 1.99,
+    "unit": "325ml",
+    "stock": 30,
+    "image": "/images/diet-coke.png",
+    "rating": 4.5
+  },
+  {
+    "id": "apple-grape-juice",
+    "name": "Apple & Grape Juice",
+    "category": "Beverages",
+    "subcategory": "Juice",
+    "price": 15.99,
+    "unit": "2L",
+    "stock": 15,
+    "image": "/images/apple-grape-juice.png",
+    "rating": 4.6
+  },
+  {
+    "id": "orange-juice",
+    "name": "Orange Juice",
+    "category": "Beverages",
+    "subcategory": "Juice",
+    "price": 15.99,
+    "unit": "2L",
+    "stock": 15,
+    "image": "/images/orange-juice.png",
+    "rating": 4.5
+  },
+  {
+    "id": "coca-cola-can",
+    "name": "Coca Cola Can",
+    "category": "Beverages",
+    "subcategory": "Soft Drinks",
+    "price": 4.99,
+    "unit": "325ml",
+    "stock": 30,
+    "image": "/images/coca-cola-can.png",
+    "rating": 4.7
+  },
+  {
+    "id": "pepsi-can",
+    "name": "Pepsi Can",
+    "category": "Beverages",
+    "subcategory": "Soft Drinks",
+    "price": 4.99,
+    "unit": "325ml",
+    "stock": 30,
+    "image": "/images/pepsi-can.png",
+    "rating": 4.5
+  },
+  {
+    "id": "ginger",
+    "name": "Ginger",
+    "category": "Fruits & Vegetables",
+    "subcategory": "Vegetables",
+    "price": 2.99,
+    "unit": "per kg",
+    "stock": 10,
+    "image": "/images/ginger.png",
+    "rating": 4.4
+  }
+]
