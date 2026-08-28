@@ -1,7 +1,49 @@
+import { useState } from 'react'
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
+import { auth } from '../lib/firebase'
 
 function Auth() {
   const navigate = useNavigate()
+
+  const [googleLoading, setGoogleLoading] =
+    useState(false)
+
+  const [googleError, setGoogleError] =
+    useState<string | null>(null)
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true)
+    setGoogleError(null)
+
+    try {
+      const provider = new GoogleAuthProvider()
+
+      await signInWithPopup(auth, provider)
+
+      navigate('/home')
+    } catch (error: unknown) {
+      console.error('Google sign-in failed:', error)
+
+      if (
+        error instanceof Error &&
+        error.message
+      ) {
+        setGoogleError(
+          'Google sign-in was unsuccessful. Please try again.',
+        )
+      } else {
+        setGoogleError(
+          'Unable to sign in with Google. Please try again.',
+        )
+      }
+    } finally {
+      setGoogleLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -40,11 +82,11 @@ function Auth() {
           with nectar
         </h1>
 
-        {/* Phone login */}
+        {/* Phone authentication */}
         <button
           type="button"
           onClick={() => navigate('/auth/phone')}
-          className="mt-7 flex h-12 w-full items-center border-b border-[#E2E2E2] text-left"
+          className="mt-7 flex h-12 w-full items-center border-b border-[#E2E2E2] text-left focus:outline-none focus:ring-2 focus:ring-[#53B175] focus:ring-offset-2"
         >
           <span className="mr-3 text-lg">
             🇧🇩
@@ -73,21 +115,38 @@ function Auth() {
         {/* Google */}
         <button
           type="button"
-          onClick={() => navigate('/')}
-          className="flex h-14 w-full items-center justify-center rounded-xl bg-[#5382EC] text-sm font-semibold text-white"
+          onClick={handleGoogleSignIn}
+          disabled={googleLoading}
+          className="flex h-14 w-full items-center justify-center rounded-xl bg-[#5382EC] text-sm font-semibold text-white transition hover:bg-[#4675DF] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-[#5382EC] focus:ring-offset-2"
         >
           <span className="mr-4 text-xl font-bold">
             G
           </span>
 
-          Continue with Google
+          {googleLoading
+            ? 'Signing in...'
+            : 'Continue with Google'}
         </button>
+
+        {/* Google error */}
+        {googleError && (
+          <p
+            role="alert"
+            className="mt-3 text-center text-xs text-red-500"
+          >
+            {googleError}
+          </p>
+        )}
 
         {/* Facebook */}
         <button
           type="button"
-          onClick={() => navigate('/')}
-          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white"
+          onClick={() => {
+            setGoogleError(
+              'Facebook sign-in is not configured yet.',
+            )
+          }}
+          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white transition hover:bg-[#455D9E] focus:outline-none focus:ring-2 focus:ring-[#4F68AD] focus:ring-offset-2"
         >
           <span className="mr-4 text-xl font-bold">
             f
@@ -101,7 +160,7 @@ function Auth() {
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-[#53B175]"
+            className="font-semibold text-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175]"
           >
             Log In
           </Link>
@@ -112,7 +171,7 @@ function Auth() {
           Don't have an account?{' '}
           <Link
             to="/signup"
-            className="font-semibold text-[#53B175]"
+            className="font-semibold text-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175]"
           >
             Sign Up
           </Link>

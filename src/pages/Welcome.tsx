@@ -4,55 +4,83 @@ function Welcome() {
   const navigate = useNavigate()
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#F2F8F3]">
-      {/* Background image area */}
-      <div className="absolute inset-0">
-        <div className="h-[68%] bg-[radial-gradient(circle_at_50%_20%,#B8D7A8_0%,#6E9A5C_45%,#36552F_100%)]" />
+    <div className="min-h-screen bg-[#F2F8F3]">
+      <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col lg:flex-row">
+        {/* Image section */}
+        <div className="relative h-[62vh] min-h-[500px] w-full overflow-hidden bg-[#E8F1E8] lg:h-screen lg:w-[55%]">
+          {/* Soft background */}
+          <div className="absolute inset-0 bg-[#E8F1E8]" />
 
-        <div className="absolute inset-x-0 top-0 h-[68%] bg-black/10" />
+          {/* Full grocery person image */}
+          <img
+            src="/images/grocery-person.png"
+            alt="Grocery delivery person"
+            className="relative z-10 h-full w-full object-contain object-center"
+          />
 
-        {/* Grocery illustration */}
-        <div className="absolute inset-x-0 top-20 flex justify-center text-[110px]">
-          🥬
-        </div>
+          {/* Mobile overlay */}
+          <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/65 via-transparent to-transparent lg:hidden" />
 
-        <div className="absolute -bottom-12 -left-8 text-[150px]">
-          🥖
-        </div>
+          {/* Mobile text */}
+          <div className="absolute inset-x-0 bottom-8 z-30 px-6 text-center text-white lg:hidden">
+            <div className="mb-3 text-4xl">
+              🥕
+            </div>
 
-        <div className="absolute bottom-0 right-[-30px] text-[150px]">
-          🥦
-        </div>
-      </div>
+            <h1 className="text-[34px] font-bold leading-[1.15]">
+              Welcome
+              <br />
+              to our store
+            </h1>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/15" />
+            <p className="mt-3 text-sm text-white/85">
+              Get your groceries in as fast as one hour
+            </p>
 
-      {/* Content */}
-      <div className="relative z-10 flex min-h-screen flex-col justify-end px-8 pb-10 text-white">
-        <div className="mb-7 text-center">
-          <div className="mb-4 text-4xl">
-            🥕
+            <button
+              type="button"
+              onClick={() => navigate('/auth')}
+              className="mt-8 h-14 w-full rounded-xl bg-[#53B175] text-sm font-semibold text-white transition hover:bg-[#46A568] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/70"
+            >
+              Get Started
+            </button>
           </div>
-
-          <h1 className="text-[34px] font-bold leading-10">
-            Welcome
-            <br />
-            to our store
-          </h1>
-
-          <p className="mt-3 text-sm text-white/80">
-            Get your groceries in as fast as one hour
-          </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => navigate('/auth')}
-          className="h-14 w-full rounded-xl bg-[#53B175] text-sm font-semibold text-white transition active:scale-[0.98]"
-        >
-          Get Started
-        </button>
+        {/* Desktop content */}
+        <div className="hidden flex-1 bg-white lg:flex lg:min-h-screen lg:items-center lg:px-12 xl:px-20">
+          <div className="mx-auto w-full max-w-[480px]">
+            <div className="mb-10">
+              <span className="text-3xl font-bold tracking-tight text-[#53B175]">
+                nectar
+              </span>
+            </div>
+
+            <div className="mb-10">
+              <div className="mb-5 text-5xl">
+                🥕
+              </div>
+
+              <h1 className="text-5xl font-bold leading-[1.1] text-[#181725]">
+                Welcome
+                <br />
+                to our store
+              </h1>
+
+              <p className="mt-5 max-w-[380px] text-base leading-6 text-[#7C7C7C]">
+                Get your groceries in as fast as one hour.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => navigate('/auth')}
+              className="h-14 w-full rounded-xl bg-[#53B175] text-sm font-semibold text-white transition hover:bg-[#46A568] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#53B175] focus:ring-offset-2"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )
