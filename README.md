@@ -1,8 +1,10 @@
 # 🛒 Ahoum Grocery
 
-A modern, responsive grocery shopping web application built with **React, TypeScript, Vite, Tailwind CSS, Zustand, and Firebase**.
+A modern, responsive grocery shopping web application built with **React, TypeScript, Vite, Tailwind CSS, Zustand, React Router, and Firebase**.
 
-Ahoum Grocery is designed around a **mobile-first shopping experience** that scales seamlessly to tablet and desktop. Users can discover products, browse categories, search and filter items, manage favourites and their cart, authenticate using Firebase Phone Authentication, select a delivery location, and complete a simulated checkout flow.
+Ahoum Grocery provides a complete grocery-shopping experience covering **product discovery, category browsing, search and filtering, product details, favourites, cart management, authentication, location selection, and checkout**.
+
+The application follows a **mobile-first design approach** based on the provided Figma reference, with a dedicated desktop adaptation rather than simply stretching the mobile layout.
 
 ---
 
@@ -10,76 +12,114 @@ Ahoum Grocery is designed around a **mobile-first shopping experience** that sca
 
 ### 🏠 Home & Product Discovery
 
-* Grocery store landing page with promotional content
-* Exclusive offers and best-selling products
-* Grocery category browsing
+* Grocery store landing page
+* Promotional grocery banner
+* Exclusive offers
+* Best-selling products
+* Grocery categories
 * Location-aware home experience
-* Responsive product grids and carousels
+* Responsive product carousels
 * Live product search and filtering
+* Loading skeleton states
+* Empty states
+* Request failure and retry states
 
-### 🛍️ Shopping Cart
+### 🥦 Product Details
 
-* Add and remove products
-* Increase or decrease product quantities
-* Stock-aware quantity controls
-* Persistent cart state across page refreshes
-* Dedicated cart and checkout flow
+Each product has a dedicated product page with:
+
+* Product image
+* Product name
+* Unit and price
+* Quantity controls
+* Product description
+* Nutrition information
+* Ratings and reviews
+* Favourite functionality
+* Add to Basket functionality
+* Stock availability
+
+### 🛒 Shopping Cart
+
+* Add products to cart
+* Increase and decrease quantities
+* Stock-aware quantity limits
+* Remove products
+* Persistent cart across browser refreshes
+* Cart subtotal and total calculation
+* Checkout flow
 * Checkout success and failure states
+
+The application also reconciles persisted cart data against the latest product dataset to handle:
+
+* Products that no longer exist
+* Changed product prices
+* Invalid quantities
+* Quantities exceeding available stock
 
 ### ❤️ Favourites
 
 * Add or remove products from favourites
-* Persistent favourites using local storage
+* Favourite state displayed on product pages
 * Dedicated Favourites page
-* Favourite products remain available after refreshing the page
-
-### 📦 Product Details
-
-* Product images and pricing
-* Quantity controls
-* Product descriptions
-* Nutrition information
-* Ratings and reviews
-* Favourite and Add to Basket actions
+* Persistent favourites using local storage
+* Favourite products remain available after refreshing the browser
 
 ### 🔐 Authentication
 
-* Welcome, Login, and Signup flows
-* Mobile number authentication
-* Country code selection
-* OTP verification using **Firebase Phone Authentication**
-* Authentication state management
-* Browsing remains accessible without authentication
+Firebase Authentication is used for:
+
+* Welcome screen
+* Login and Signup flows
+* Phone number authentication
+* OTP verification
+* Google Sign-In
+* Authentication state handling
+
+The product catalogue remains accessible without requiring authentication.
 
 ### 📍 Location
 
-* City and area selection
-* Saved delivery location
-* Selected location displayed across the shopping experience
+Users can select their delivery location by choosing:
+
+* City
+* Local area
+
+The selected location is stored locally and displayed throughout the shopping experience.
 
 ### 📱 Responsive Design
 
-* Mobile-first UI
-* Responsive layouts for mobile, tablet, and desktop
-* Mobile bottom navigation
-* Desktop-friendly product grids and checkout layouts
-* Keyboard-accessible interactive controls with visible focus states
+The application supports:
+
+* Mobile
+* Tablet
+* Desktop
+
+The mobile experience follows the hierarchy, spacing, navigation patterns, and visual language of the Figma reference.
+
+Desktop uses a dedicated layout adaptation with:
+
+* Max-width content containers
+* Multi-column product grids
+* Expanded category layouts
+* Desktop-friendly navigation
+* Adapted cart and checkout layouts
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology       | Purpose                                   |
-| ---------------- | ----------------------------------------- |
-| **React**        | UI development                            |
-| **TypeScript**   | Type-safe application development         |
-| **Vite**         | Development server and build tooling      |
-| **Tailwind CSS** | Styling and responsive design             |
-| **React Router** | Client-side routing                       |
-| **Zustand**      | Global state management                   |
-| **Firebase**     | Phone authentication and OTP verification |
-| **Vitest**       | Unit testing                              |
-| **ESLint**       | Code quality and linting                  |
+| Technology       | Purpose                              |
+| ---------------- | ------------------------------------ |
+| **React**        | UI development                       |
+| **TypeScript**   | Type-safe application development    |
+| **Vite**         | Development server and build tooling |
+| **Tailwind CSS** | Styling and responsive design        |
+| **React Router** | Client-side navigation               |
+| **Zustand**      | Global state management              |
+| **Firebase**     | Phone and Google authentication      |
+| **Vitest**       | Automated testing                    |
+| **ESLint**       | Code quality and linting             |
 
 ---
 
@@ -91,87 +131,126 @@ The application uses **Zustand** for global state management.
 
 State is separated by responsibility into independent stores:
 
-* `cartStore` — shopping cart items and quantities
+* `cartStore` — cart items and quantities
 * `favouriteStore` — favourite products
+* `searchStore` — search request state and stale-response protection
 
-This avoids a monolithic global store and keeps each state domain easier to maintain and reason about.
-
-Both stores use Zustand's `persist` middleware to maintain state across browser refreshes.
+Zustand's `persist` middleware is used where persistent browser state is required.
 
 ### Data Layer
 
-Product access is isolated inside `src/api/`.
+Product access is isolated inside:
 
-Instead of allowing components to access product data directly, typed API functions provide a consistent data layer. This makes it easier to replace the current mock data with a real backend or API in the future.
+```text
+src/api/
+```
+
+The application uses **typed product data** and a **mock API layer with variable request latency**.
+
+This keeps product access separate from UI components and makes the data layer easier to replace with a real backend in the future.
 
 ### Routing
 
-**React Router** handles application navigation and route management.
+**React Router** handles client-side navigation.
 
-The application does not use Context API, Redux, MobX, or other global state solutions outside the assignment requirements.
+The application does not use:
+
+* Redux
+* MobX
+* Context API
+* UI component libraries
 
 ### Authentication
 
-**Firebase Phone Authentication** provides OTP-based authentication.
+Firebase Authentication handles:
 
-Authentication is used for the `/auth/*` flow while the product catalogue remains accessible without requiring users to sign in.
+* Phone number authentication with OTP
+* Google Sign-In
+
+Firebase configuration is provided through environment variables.
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-src/
-├── api/
-│   ├── products.ts
-│   └── types.ts
+ahoum-grocery/
 │
-├── components/
-│   ├── layout/
-│   │   ├── AppShell.tsx
-│   │   └── BottomNav.tsx
+├── public/
+│   └── images/
+│
+├── src/
+│
+│   ├── api/
+│   │   ├── products.ts
+│   │   └── types.ts
+│
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── AppShell.tsx
+│   │   │   └── BottomNav.tsx
+│   │   │
+│   │   └── product/
+│   │       ├── ProductCard.tsx
+│   │       ├── ProductCarousel.tsx
+│   │       ├── ProductGrid.tsx
+│   │       └── QuantityControl.tsx
+│
+│   ├── pages/
+│   │   ├── Home.tsx
+│   │   ├── Explore.tsx
+│   │   ├── CategoryListing.tsx
+│   │   ├── ProductDetail.tsx
+│   │   ├── Search.tsx
+│   │   ├── Cart.tsx
+│   │   ├── Checkout.tsx
+│   │   ├── CheckoutResult.tsx
+│   │   ├── Favourite.tsx
+│   │   ├── Account.tsx
+│   │   ├── Welcome.tsx
+│   │   ├── Auth.tsx
+│   │   ├── Login.tsx
+│   │   ├── Signup.tsx
+│   │   ├── MobileNumber.tsx
+│   │   ├── Otp.tsx
+│   │   └── Location.tsx
+│
+│   ├── stores/
+│   │   ├── cartStore.ts
+│   │   ├── favouriteStore.ts
+│   │   └── searchStore.ts
+│
+│   ├── lib/
+│   │   ├── firebase.ts
+│   │   ├── phoneAuth.ts
+│   │   ├── mockLatency.ts
+│   │   ├── reconcileCart.ts
+│   │   └── ...
+│
+│   ├── router/
+│   │   └── index.tsx
 │   │
-│   └── product/
-│       ├── ProductCard.tsx
-│       ├── ProductCarousel.tsx
-│       ├── ProductGrid.tsx
-│       └── QuantityControl.tsx
+│   └── main.tsx
 │
-├── pages/
-│   ├── Home.tsx
-│   ├── Explore.tsx
-│   ├── CategoryListing.tsx
-│   ├── ProductDetail.tsx
-│   ├── Search.tsx
-│   ├── Cart.tsx
-│   ├── Checkout.tsx
-│   ├── CheckoutResult.tsx
-│   ├── Favourite.tsx
-│   ├── Account.tsx
-│   ├── Welcome.tsx
-│   ├── Auth.tsx
-│   ├── Login.tsx
-│   ├── Signup.tsx
-│   ├── MobileNumber.tsx
-│   ├── Otp.tsx
-│   └── Location.tsx
-│
-├── stores/
-│   ├── cartStore.ts
-│   └── favouriteStore.ts
-│
-├── router/
-│   └── index.tsx
-│
-├── firebase/
-│   └── ...
-│
-└── main.tsx
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── vite.config.ts
+├── tsconfig.json
+└── README.md
 ```
 
 ---
 
 ## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+* [Node.js](https://nodejs.org/)
+* npm
+* Git
 
 ### 1. Clone the repository
 
@@ -204,53 +283,27 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 ```
 
-> ⚠️ **Never commit your `.env` file or Firebase credentials to GitHub.**
+> ⚠️ **Never commit `.env` or files containing private credentials to GitHub.**
 
-Make sure your `.gitignore` contains:
+### 5. Configure Firebase Authentication
 
-```gitignore
-.env
-.env.local
-.env.*.local
-```
+In the Firebase Console:
 
-### 5. Start the development server
+1. Open the Firebase project.
+2. Go to **Authentication**.
+3. Open **Sign-in method**.
+4. Enable **Phone** authentication.
+5. Enable **Google** sign-in.
+6. Configure the required authorized domains.
+7. Verify that the environment variables are correctly configured.
+
+### 6. Start the development server
 
 ```bash
 npm run dev
 ```
 
 Vite will provide the local development URL in the terminal.
-
----
-
-## 🔥 Firebase Setup
-
-Ahoum Grocery uses **Firebase Phone Authentication** for OTP-based login.
-
-To enable authentication:
-
-1. Open your Firebase project.
-2. Navigate to **Authentication**.
-3. Open **Sign-in method**.
-4. Enable **Phone** authentication.
-5. Configure the required authorized domains.
-6. Add your Firebase configuration values to `.env`.
-7. Start the application.
-
-Without valid Firebase configuration, the phone authentication flow will not function.
-
----
-
-## 📜 Available Scripts
-
-| Command           | Description                  |
-| ----------------- | ---------------------------- |
-| `npm run dev`     | Start the development server |
-| `npm run build`   | Create a production build    |
-| `npm run preview` | Preview the production build |
-| `npm run lint`    | Run ESLint                   |
-| `npm run test`    | Run the Vitest test suite    |
 
 ---
 
@@ -262,7 +315,7 @@ Without valid Firebase configuration, the phone authentication flow will not fun
 | `/explore`            | Explore            |
 | `/search`             | Search             |
 | `/cart`               | Cart               |
-| `/favourite`          | Favourites         |
+| `/favourites`         | Favourites         |
 | `/account`            | Account            |
 | `/category/:category` | Category Listing   |
 | `/product/:id`        | Product Details    |
@@ -278,49 +331,74 @@ Without valid Firebase configuration, the phone authentication flow will not fun
 
 ---
 
-## 🎨 Design & UX
-
-Ahoum Grocery follows a **product-first, mobile-first design approach**.
-
-Key design decisions include:
-
-* Green-based visual identity
-* Clean product-focused cards
-* Responsive layouts across screen sizes
-* Mobile bottom navigation
-* Desktop grid-based browsing
-* Clear cart and checkout interactions
-* Visible keyboard focus states
-* Consistent quantity and product controls
-* Simple navigation designed around common grocery-shopping flows
-
----
-
 ## 🧪 Testing
 
 The project uses **Vitest** for automated testing.
 
-Current coverage focuses primarily on:
+Current tests cover important application logic, including:
 
-* Cart state and logic
-* Search and filtering behaviour
+* Cart reconciliation
+* Search state behaviour
+* Promotion logic
 
-Component, integration, and end-to-end coverage can be expanded as the application grows.
+The search implementation also includes **stale-response protection**, ensuring that an older request cannot overwrite the result of a newer search request.
+
+Run the test suite with:
+
+```bash
+npm run test
+```
+
+---
+
+## 📜 Available Scripts
+
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `npm run dev`     | Start development server |
+| `npm run build`   | Create production build  |
+| `npm run preview` | Preview production build |
+| `npm run lint`    | Run ESLint               |
+| `npm run test`    | Run Vitest tests         |
+
+---
+
+## 🎨 Design & UX
+
+The application follows a **mobile-first, product-focused design approach** based on the provided Figma reference.
+
+Key design characteristics include:
+
+* Green grocery-focused visual identity
+* Clean white interface
+* Product-focused cards
+* Rounded UI elements
+* Mobile bottom navigation
+* Responsive desktop navigation
+* Multi-column desktop product grids
+* Adapted desktop cart and checkout layouts
+* Consistent spacing and typography
+* Visible keyboard focus states
+* Clear loading, empty, and error states
+
+Desktop adaptations and their design reasoning are documented separately in `DESIGN_NOTES.md`.
 
 ---
 
 ## ⚠️ Known Limitations
 
-Ahoum Grocery is currently a frontend-focused portfolio project, so some production features are intentionally simulated.
+Ahoum Grocery is currently a **frontend-focused project using mock product data**.
 
-* Product data currently comes from mock/local data
-* No live inventory management
+Current limitations include:
+
+* Product data is not connected to a production backend
+* Inventory is simulated
+* Checkout and payment processing are simulated
 * No real payment gateway
-* Checkout success/failure states are simulated
-* Firebase Phone Authentication requires project configuration
-* Automated test coverage is currently limited
-* Cart reconciliation with live product prices and stock is not yet implemented
-* No order history or order management backend
+* No order history backend
+* No live delivery tracking
+* Firebase authentication requires valid project configuration
+* Automated test coverage currently focuses on core application logic rather than full end-to-end coverage
 
 ---
 
@@ -328,23 +406,23 @@ Ahoum Grocery is currently a frontend-focused portfolio project, so some product
 
 With additional development time, the application could be extended with:
 
-* **Real backend/API integration**
-* Live inventory and stock management
-* Cart reconciliation with real-time prices and availability
-* Visible notifications when cart items or prices change
-* Order history and order tracking
+* Real backend/API integration
+* Live inventory management
 * Real payment gateway integration
+* Order history and tracking
 * User profiles and saved addresses
-* Expanded component and integration testing
+* Product reviews
+* Coupon and promotional systems
 * End-to-end testing
 * Image optimization and lazy loading
-* Improved desktop performance for large product catalogues
+* Admin dashboard and order management
 
 ---
 
 ## 👩‍💻 Author
 
 **Priyanka Das**
+
 Computer Science & Business Engineering Student
 
 ---
@@ -352,4 +430,3 @@ Computer Science & Business Engineering Student
 ## 📄 License
 
 This project was created for **educational and portfolio purposes**.
-
