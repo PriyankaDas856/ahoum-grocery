@@ -11,19 +11,19 @@ const categories = [
   },
   {
     name: 'Cooking Oil & Ghee',
-    image: '/images/organic-bananas.png',
+    image: '/images/Cooking Oil & Ghee.png',
   },
   {
     name: 'Meat & Fish',
-    image: '/images/bell-pepper-red.png',
+    image: '/images/Meat & Fish.png',
   },
   {
     name: 'Bakery & Snacks',
-    image: '/images/egg-noodles.png',
+    image: '/images/biscuit.png',
   },
   {
     name: 'Dairy & Eggs',
-    image: '/images/egg-chicken-red.png',
+    image: '/images/fresh-milk.png',
   },
   {
     name: 'Beverages',
@@ -48,20 +48,21 @@ function Explore() {
   return (
     <div className="px-4 pt-5">
       <header className="text-center">
-        <h1 className="text-lg font-semibold text-gray-900">
+        <h1 className="text-lg font-semibold text-[#181725]">
           Find Products
         </h1>
 
         <Link
           to="/search"
-          className="mt-4 flex h-11 items-center rounded-xl bg-gray-100 px-4 text-left text-xs text-gray-400"
+          className="mt-4 flex h-11 items-center rounded-xl bg-[#F2F3F2] px-4 text-left text-xs text-[#7C7C7C]"
         >
-          🔍&nbsp;&nbsp; Search Store
+          <span className="text-sm">🔍</span>
+          <span className="ml-2">Search Store</span>
         </Link>
       </header>
 
       <section className="mt-6">
-        <h2 className="mb-4 text-lg font-semibold">
+        <h2 className="mb-4 text-lg font-semibold text-[#181725]">
           Categories
         </h2>
 
@@ -70,15 +71,17 @@ function Explore() {
             <Link
               key={category.name}
               to={`/category/${encodeURIComponent(category.name)}`}
-              className="flex min-h-36 flex-col items-center justify-center rounded-xl border border-gray-100 bg-gray-50 p-4 text-center"
+              className="flex h-[155px] flex-col items-center justify-center rounded-xl border border-gray-100 bg-[#F8F8F8] p-3 text-center transition-transform hover:scale-[1.01]"
             >
-              <img
-                src={category.image}
-                alt=""
-                className="h-20 w-20 object-contain"
-              />
+              <div className="flex h-24 w-full items-center justify-center">
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="h-24 w-24 object-contain"
+                />
+              </div>
 
-              <span className="mt-3 text-xs font-semibold text-gray-800">
+              <span className="mt-2 text-[11px] font-medium leading-4 text-[#181725]">
                 {category.name}
               </span>
             </Link>
@@ -87,16 +90,22 @@ function Explore() {
       </section>
 
       <section className="mt-8">
-        <h2 className="mb-4 text-lg font-semibold">
-          All Products
-        </h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-[#181725]">
+            All Products
+          </h2>
+
+          <span className="text-xs text-[#7C7C7C]">
+            {products.length} items
+          </span>
+        </div>
 
         {loading ? (
           <div className="grid grid-cols-2 gap-3">
             {[1, 2, 3, 4].map((item) => (
               <div
                 key={item}
-                className="h-64 animate-pulse rounded-xl bg-gray-100"
+                className="h-64 animate-pulse rounded-2xl bg-gray-100"
               />
             ))}
           </div>

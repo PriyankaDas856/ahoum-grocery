@@ -3,12 +3,14 @@ import BottomNav from './BottomNav'
 
 function AppShell() {
   return (
-    <div className="min-h-screen bg-white">
-      <main className="mx-auto min-h-screen w-full max-w-[430px] pb-20">
-        <Outlet />
-      </main>
+    <div className="min-h-screen bg-[#f2f3f2]">
+      <div className="mx-auto min-h-screen w-full max-w-[430px] bg-white shadow-sm">
+        <main className="min-h-screen pb-24">
+          <Outlet />
+        </main>
 
-      <BottomNav />
+        <BottomNav />
+      </div>
     </div>
   )
 }

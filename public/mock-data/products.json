@@ -33,6 +33,164 @@
     "rating": 4.6
   },
   {
+    "id": "ginger",
+    "name": "Ginger",
+    "category": "Fruits & Vegetables",
+    "subcategory": "Vegetables",
+    "price": 2.99,
+    "unit": "per kg",
+    "stock": 10,
+    "image": "/images/ginger.png",
+    "rating": 4.4
+  },
+  {
+    "id": "potato",
+    "name": "Potato",
+    "category": "Fruits & Vegetables",
+    "subcategory": "Vegetables",
+    "price": 3.99,
+    "unit": "per kg",
+    "stock": 20,
+    "image": "/images/potato.png",
+    "rating": 4.5
+  },
+
+  {
+    "id": "ghee",
+    "name": "Ghee",
+    "category": "Cooking Oil & Ghee",
+    "subcategory": "Ghee",
+    "price": 8.99,
+    "unit": "500g",
+    "stock": 15,
+    "image": "/images/ghee.png",
+    "rating": 4.7
+  },
+  {
+    "id": "mustard-oil",
+    "name": "Mustard Oil",
+    "category": "Cooking Oil & Ghee",
+    "subcategory": "Cooking Oil",
+    "price": 7.99,
+    "unit": "1L",
+    "stock": 18,
+    "image": "/images/Mustard-oil.png",
+    "rating": 4.5
+  },
+  {
+    "id": "sunflower-oil",
+    "name": "Sunflower Oil",
+    "category": "Cooking Oil & Ghee",
+    "subcategory": "Cooking Oil",
+    "price": 6.99,
+    "unit": "1L",
+    "stock": 20,
+    "image": "/images/sunflower-oil-bottle.png",
+    "rating": 4.6
+  },
+
+  {
+    "id": "chicken-meat",
+    "name": "Chicken Meat",
+    "category": "Meat & Fish",
+    "subcategory": "Meat",
+    "price": 8.99,
+    "unit": "per kg",
+    "stock": 12,
+    "image": "/images/chicken-meat.png",
+    "rating": 4.6
+  },
+  {
+    "id": "duck-meat",
+    "name": "Duck Meat",
+    "category": "Meat & Fish",
+    "subcategory": "Meat",
+    "price": 10.99,
+    "unit": "per kg",
+    "stock": 8,
+    "image": "/images/duck-meat.png",
+    "rating": 4.4
+  },
+  {
+    "id": "fish",
+    "name": "Fresh Fish",
+    "category": "Meat & Fish",
+    "subcategory": "Fish",
+    "price": 9.99,
+    "unit": "per kg",
+    "stock": 10,
+    "image": "/images/fish.png",
+    "rating": 4.5
+  },
+  {
+    "id": "goat-meat",
+    "name": "Goat Meat",
+    "category": "Meat & Fish",
+    "subcategory": "Meat",
+    "price": 12.99,
+    "unit": "per kg",
+    "stock": 7,
+    "image": "/images/goat-meat.png",
+    "rating": 4.7
+  },
+
+  {
+    "id": "biscuit",
+    "name": "Biscuit",
+    "category": "Bakery & Snacks",
+    "subcategory": "Biscuits",
+    "price": 3.99,
+    "unit": "250g",
+    "stock": 25,
+    "image": "/images/biscuit.png",
+    "rating": 4.3
+  },
+  {
+    "id": "choco-cookies",
+    "name": "Choco Cookies",
+    "category": "Bakery & Snacks",
+    "subcategory": "Cookies",
+    "price": 4.99,
+    "unit": "250g",
+    "stock": 20,
+    "image": "/images/choco-cookies.png",
+    "rating": 4.6
+  },
+  {
+    "id": "egg-noodles",
+    "name": "Egg Noodles",
+    "category": "Bakery & Snacks",
+    "subcategory": "Noodles",
+    "price": 15.99,
+    "unit": "2 pcs",
+    "stock": 18,
+    "image": "/images/egg-noodles.png",
+    "rating": 4.5
+  },
+  {
+    "id": "maggie",
+    "name": "Maggie",
+    "category": "Bakery & Snacks",
+    "subcategory": "Instant Noodles",
+    "price": 5.99,
+    "unit": "4 pcs",
+    "stock": 25,
+    "image": "/images/maggie.png",
+    "rating": 4.5
+  },
+  {
+    "id": "ramen",
+    "name": "Ramen",
+    "category": "Bakery & Snacks",
+    "subcategory": "Instant Noodles",
+    "price": 6.99,
+    "unit": "4 pcs",
+    "stock": 20,
+    "image": "/images/ramen.png",
+    "rating": 4.4
+  },
+
+  {
     "id": "egg-chicken-red",
     "name": "Egg Chicken Red",
     "category": "Dairy & Eggs",
@@ -55,27 +213,28 @@
     "rating": 4.3
   },
   {
-    "id": "egg-potato",
-    "name": "Egg Potato",
+    "id": "fresh-milk",
+    "name": "Fresh Milk",
     "category": "Dairy & Eggs",
-    "subcategory": "Eggs",
-    "price": 15.99,
-    "unit": "2 pcs",
-    "stock": 10,
-    "image": "/images/egg-potato.png",
-    "rating": 4.2
+    "subcategory": "Milk",
+    "price": 3.99,
+    "unit": "1L",
+    "stock": 20,
+    "image": "/images/fresh-milk.png",
+    "rating": 4.7
   },
   {
-    "id": "egg-noodles",
-    "name": "Egg Noodles",
-    "category": "Bakery & Snacks",
-    "subcategory": "Noodles",
-    "price": 15.99,
-    "unit": "2 pcs",
-    "stock": 18,
-    "image": "/images/egg-noodles.png",
+    "id": "oat-milk",
+    "name": "Oat Milk",
+    "category": "Dairy & Eggs",
+    "subcategory": "Milk",
+    "price": 5.99,
+    "unit": "1L",
+    "stock": 15,
+    "image": "/images/oat-milk.png",
     "rating": 4.5
   },
+
   {
     "id": "sprite-can",
     "name": "Sprite Can",
@@ -141,16 +300,5 @@
     "stock": 30,
     "image": "/images/pepsi-can.png",
     "rating": 4.5
-  },
-  {
-    "id": "ginger",
-    "name": "Ginger",
-    "category": "Fruits & Vegetables",
-    "subcategory": "Vegetables",
-    "price": 2.99,
-    "unit": "per kg",
-    "stock": 10,
-    "image": "/images/ginger.png",
-    "rating": 4.4
   }
 ]
