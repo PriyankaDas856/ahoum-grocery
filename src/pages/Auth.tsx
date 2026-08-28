@@ -60,30 +60,12 @@ function Auth() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero image */}
-      <div className="relative h-[43vh] min-h-[300px] overflow-hidden bg-[#F7F7F7]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,#FFFFFF_0%,#F5F8F5_70%)]" />
-
-        <div className="relative flex h-full items-center justify-center">
-          <div className="text-[120px]">
-            🥦
-          </div>
-
-          <div className="absolute left-8 top-14 text-5xl">
-            🍅
-          </div>
-
-          <div className="absolute right-8 top-20 text-5xl">
-            🥕
-          </div>
-
-          <div className="absolute bottom-8 left-16 text-5xl">
-            🍎
-          </div>
-
-          <div className="absolute bottom-10 right-14 text-5xl">
-            🥬
-          </div>
-        </div>
+      <div className="relative h-[45vh] min-h-[280px] w-full overflow-hidden bg-white sm:h-[48vh] lg:h-[52vh]">
+        <img
+          src="/images/auth.png"
+          alt="Fresh groceries"
+          className="absolute inset-0 h-full w-full object-contain object-center"
+        />
       </div>
 
       {/* Content */}
@@ -117,7 +99,7 @@ function Auth() {
         <div className="my-7 flex items-center gap-4">
           <div className="h-px flex-1 bg-[#E2E2E2]" />
 
-          <span className="text-xs text-[#7C7C7C]">
+          <span className="whitespace-nowrap text-xs text-[#7C7C7C]">
             Or connect with social media
           </span>
 

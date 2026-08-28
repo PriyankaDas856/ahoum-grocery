@@ -13,21 +13,18 @@ type ProductInformation = {
   rating: number
 }
 
-const productInformation: Record<
-  string,
-  ProductInformation
-> = {
+const productInformation: Record<string, ProductInformation> = {
   'organic-bananas': {
     description:
-      'Fresh organic bananas with a naturally sweet taste and soft texture. Perfect for breakfast, smoothies, snacks, and everyday meals.',
+      'Fresh organic bananas with a naturally sweet flavour and soft texture. Perfect for breakfast, smoothies, snacks and everyday meals.',
     nutrition: '89 kcal / 100g',
     reviewCount: 128,
-    rating: 4.5,
+    rating: 4.6,
   },
 
   'natural-red-apple': {
     description:
-      'Crisp and naturally sweet red apples selected for freshness. Great as a healthy snack or for adding to salads, desserts, and smoothies.',
+      'Crisp red apples selected for freshness and natural sweetness. Great as a snack or for salads, desserts and smoothies.',
     nutrition: '52 kcal / 100g',
     reviewCount: 164,
     rating: 4.8,
@@ -35,7 +32,7 @@ const productInformation: Record<
 
   'bell-pepper-red': {
     description:
-      'Fresh red bell peppers with a crisp texture and naturally sweet flavour. Ideal for salads, stir-fries, curries, and roasted dishes.',
+      'Fresh red bell peppers with a crisp texture and naturally sweet flavour. Ideal for salads, stir-fries, curries and roasted dishes.',
     nutrition: '31 kcal / 100g',
     reviewCount: 96,
     rating: 4.6,
@@ -43,95 +40,23 @@ const productInformation: Record<
 
   ginger: {
     description:
-      'Fresh ginger root with a warm and aromatic flavour. A versatile kitchen ingredient for tea, curries, marinades, sauces, and everyday cooking.',
+      'Fresh ginger root with a warm, aromatic flavour. A versatile ingredient for tea, curries, marinades, sauces and everyday cooking.',
     nutrition: '80 kcal / 100g',
     reviewCount: 72,
-    rating: 4.4,
-  },
-
-  'egg-chicken-red': {
-    description:
-      'Fresh chicken eggs with a rich taste and smooth texture. Suitable for breakfast, baking, cooking, and everyday meals.',
-    nutrition: '143 kcal / 100g',
-    reviewCount: 87,
-    rating: 4.4,
-  },
-
-  'egg-chicken-white': {
-    description:
-      'Fresh white chicken eggs suitable for breakfast and everyday cooking. A versatile ingredient for boiled eggs, omelettes, baking, and more.',
-    nutrition: '143 kcal / 100g',
-    reviewCount: 81,
-    rating: 4.3,
-  },
-
-  'egg-potato': {
-    description:
-      'A convenient everyday grocery combination of fresh eggs and potatoes, perfect for quick breakfasts, snacks, and home-cooked meals.',
-    nutrition: 'Approx. 120 kcal / 100g',
-    reviewCount: 54,
-    rating: 4.2,
-  },
-
-  'egg-noodles': {
-    description:
-      'Easy-to-cook egg noodles with a satisfying texture. Perfect for quick meals, stir-fries, soups, and homemade noodle dishes.',
-    nutrition: 'Approx. 138 kcal / 100g',
-    reviewCount: 103,
     rating: 4.5,
   },
 
-  biscuit: {
+  potato: {
     description:
-      'Crunchy biscuits made for everyday snacking. Enjoy them with tea, coffee, milk, or as a quick snack throughout the day.',
-    nutrition: 'Approx. 480 kcal / 100g',
-    reviewCount: 61,
-    rating: 4.4,
-  },
-
-  'choco-cookies': {
-    description:
-      'Crunchy chocolate cookies with a rich cocoa flavour. A convenient sweet snack to enjoy with tea, coffee, or milk.',
-    nutrition: 'Approx. 490 kcal / 100g',
-    reviewCount: 75,
+      'Fresh everyday potatoes with a naturally earthy flavour and versatile texture. Suitable for curries, fries, roasting, boiling and snacks.',
+    nutrition: '77 kcal / 100g',
+    reviewCount: 104,
     rating: 4.5,
-  },
-
-  maggie: {
-    description:
-      'Quick and convenient instant noodles for an easy meal. Prepare them with your favourite vegetables, eggs, or other ingredients.',
-    nutrition: 'Approx. 450 kcal / 100g',
-    reviewCount: 142,
-    rating: 4.6,
-  },
-
-  ramen: {
-    description:
-      'Instant ramen noodles with a satisfying texture and rich flavour. Great for quick meals and easy custom recipes.',
-    nutrition: 'Approx. 430 kcal / 100g',
-    reviewCount: 89,
-    rating: 4.4,
-  },
-
-  'fresh-milk': {
-    description:
-      'Fresh milk with a smooth and creamy taste. Enjoy it chilled, with breakfast cereals, tea, coffee, or in your favourite recipes.',
-    nutrition: 'Approx. 61 kcal / 100ml',
-    reviewCount: 117,
-    rating: 4.5,
-  },
-
-  'oat-milk': {
-    description:
-      'Smooth oat-based milk with a naturally mild flavour. Great for breakfast, coffee, smoothies, and everyday drinks.',
-    nutrition: 'Approx. 46 kcal / 100ml',
-    reviewCount: 64,
-    rating: 4.4,
   },
 
   ghee: {
     description:
-      'Rich and aromatic ghee suitable for everyday Indian cooking. Perfect for curries, rice dishes, parathas, sweets, and frying.',
+      'Rich and aromatic desi ghee suitable for everyday Indian cooking. Perfect for parathas, curries, rice dishes, sweets and frying.',
     nutrition: 'Approx. 900 kcal / 100g',
     reviewCount: 93,
     rating: 4.7,
@@ -139,55 +64,191 @@ const productInformation: Record<
 
   'mustard-oil': {
     description:
-      'Aromatic mustard oil with a distinctive flavour, suitable for traditional cooking, frying, marinades, and Indian recipes.',
+      'Aromatic mustard oil with a distinctive flavour. Suitable for traditional Indian cooking, frying, marinades and pickles.',
     nutrition: 'Approx. 884 kcal / 100ml',
     reviewCount: 86,
-    rating: 4.5,
+    rating: 4.6,
   },
 
   'sunflower-oil': {
     description:
-      'Light sunflower oil suitable for everyday cooking, frying, sautéing, and baking.',
+      'Light sunflower oil suitable for everyday cooking, sautéing, frying and baking.',
     nutrition: 'Approx. 884 kcal / 100ml',
     reviewCount: 79,
+    rating: 4.6,
+  },
+
+  'chicken-meat': {
+    description:
+      'Fresh chicken suitable for curries, grilling, roasting, stir-fries and everyday home-cooked meals.',
+    nutrition: 'Approx. 165 kcal / 100g',
+    reviewCount: 88,
+    rating: 4.6,
+  },
+
+  'duck-meat': {
+    description:
+      'Fresh duck meat with a rich flavour, suitable for curries, roasting, grilling and slow-cooked dishes.',
+    nutrition: 'Approx. 200 kcal / 100g',
+    reviewCount: 61,
     rating: 4.5,
   },
 
-  'coca-cola-can': {
+  fish: {
     description:
-      'A chilled carbonated soft drink with a classic cola flavour. Perfect for serving cold with meals or enjoying as a refreshing drink.',
-    nutrition: 'Approx. 42 kcal / 100ml',
-    reviewCount: 211,
+      'Fresh fish selected for everyday cooking. Great for curries, frying, grilling, steaming and traditional seafood recipes.',
+    nutrition: 'Varies by fish type',
+    reviewCount: 73,
+    rating: 4.6,
+  },
+
+  'goat-meat': {
+    description:
+      'Fresh goat meat suitable for traditional curries, stews, grills and slow-cooked Indian dishes.',
+    nutrition: 'Approx. 143 kcal / 100g',
+    reviewCount: 67,
     rating: 4.7,
   },
 
-  'diet-coke': {
+  biscuit: {
     description:
-      'A refreshing carbonated cola drink with a crisp taste. Best served chilled with meals or as a refreshing beverage.',
-    nutrition: 'Low calorie beverage',
-    reviewCount: 154,
+      'Crunchy everyday biscuits that pair perfectly with tea, coffee or milk. A convenient snack for any time of the day.',
+    nutrition: 'Approx. 480 kcal / 100g',
+    reviewCount: 61,
+    rating: 4.4,
+  },
+
+  'bourbon-biscuit': {
+    description:
+      'Chocolate biscuits with a creamy centre and a satisfying crunch. A classic tea-time and snack-time favourite.',
+    nutrition: 'Approx. 480 kcal / 100g',
+    reviewCount: 92,
+    rating: 4.6,
+  },
+
+  'cream-biscuit': {
+    description:
+      'Crispy biscuits with a smooth cream filling. Great with tea, coffee or as a quick sweet snack.',
+    nutrition: 'Approx. 470 kcal / 100g',
+    reviewCount: 76,
     rating: 4.5,
   },
 
-  'pepsi-can': {
+  'choco-cookies': {
     description:
-      'A refreshing carbonated cola drink with a bold and sweet cola flavour. Best served chilled.',
-    nutrition: 'Approx. 42 kcal / 100ml',
-    reviewCount: 138,
+      'Crunchy chocolate cookies with a rich cocoa flavour. Perfect for tea breaks, dessert cravings and everyday snacking.',
+    nutrition: 'Approx. 490 kcal / 100g',
+    reviewCount: 75,
+    rating: 4.7,
+  },
+
+  'egg-noodles': {
+    description:
+      'Easy-to-cook egg noodles with a satisfying texture. Perfect for stir-fries, soups and quick homemade meals.',
+    nutrition: 'Approx. 138 kcal / 100g',
+    reviewCount: 103,
+    rating: 4.5,
+  },
+
+  'egg-pasta': {
+    description:
+      'Versatile egg pasta with a smooth texture. Ideal for creamy sauces, tomato-based dishes, salads and quick dinners.',
+    nutrition: 'Approx. 350 kcal / 100g',
+    reviewCount: 69,
+    rating: 4.5,
+  },
+
+  maggie: {
+    description:
+      'Quick and convenient instant noodles with a classic masala flavour. Prepare with vegetables, eggs or your favourite ingredients.',
+    nutrition: 'Approx. 450 kcal / 100g',
+    reviewCount: 142,
+    rating: 4.7,
+  },
+
+  ramen: {
+    description:
+      'Instant ramen noodles with a satisfying texture and rich flavour. Great for quick meals and creative noodle recipes.',
+    nutrition: 'Approx. 430 kcal / 100g',
+    reviewCount: 89,
+    rating: 4.5,
+  },
+
+  mayonnaise: {
+    description:
+      'Smooth and creamy mayonnaise that works well in sandwiches, burgers, wraps, salads and homemade dips.',
+    nutrition: 'Approx. 680 kcal / 100g',
+    reviewCount: 84,
+    rating: 4.5,
+  },
+
+  'egg-chicken-red': {
+    description:
+      'Fresh brown chicken eggs with a rich taste and smooth texture. Suitable for breakfast, baking and everyday cooking.',
+    nutrition: 'Approx. 143 kcal / 100g',
+    reviewCount: 87,
+    rating: 4.5,
+  },
+
+  'egg-chicken-white': {
+    description:
+      'Fresh white chicken eggs suitable for breakfast and everyday cooking. Great for omelettes, boiled eggs, baking and more.',
+    nutrition: 'Approx. 143 kcal / 100g',
+    reviewCount: 81,
+    rating: 4.4,
+  },
+
+  'fresh-milk': {
+    description:
+      'Fresh milk with a smooth and creamy taste. Enjoy chilled, with cereals, tea, coffee or in your favourite recipes.',
+    nutrition: 'Approx. 61 kcal / 100ml',
+    reviewCount: 117,
+    rating: 4.7,
+  },
+
+  'oat-milk': {
+    description:
+      'Smooth oat-based milk with a mild flavour. Great for breakfast, coffee, smoothies and everyday drinks.',
+    nutrition: 'Approx. 46 kcal / 100ml',
+    reviewCount: 64,
     rating: 4.5,
   },
 
   'sprite-can': {
     description:
-      'A crisp and refreshing lemon-lime flavoured carbonated drink. Best enjoyed chilled with meals or as a refreshing beverage.',
+      'Crisp lemon-lime flavoured soft drink with a refreshing taste. Best enjoyed chilled.',
     nutrition: 'Approx. 42 kcal / 100ml',
     reviewCount: 127,
-    rating: 4.4,
+    rating: 4.5,
+  },
+
+  'diet-coke': {
+    description:
+      'Refreshing cola with a crisp taste and low-calorie profile. Best served chilled.',
+    nutrition: 'Low-calorie beverage',
+    reviewCount: 154,
+    rating: 4.5,
+  },
+
+  'coca-cola-can': {
+    description:
+      'Classic Coca-Cola with a bold cola flavour and refreshing carbonation. Best served chilled.',
+    nutrition: 'Approx. 42 kcal / 100ml',
+    reviewCount: 211,
+    rating: 4.7,
+  },
+
+  'pepsi-can': {
+    description:
+      'Refreshing cola with a bold and sweet flavour. A classic choice with meals, snacks and gatherings.',
+    nutrition: 'Approx. 43 kcal / 100ml',
+    reviewCount: 138,
+    rating: 4.6,
   },
 
   'apple-grape-juice': {
     description:
-      'A refreshing blend of apple and grape flavours. Enjoy chilled as a fruity drink with breakfast or throughout the day.',
+      'Refreshing blend of apple and grape flavours. Enjoy chilled with breakfast or as a fruity drink throughout the day.',
     nutrition: 'Approx. 46 kcal / 100ml',
     reviewCount: 91,
     rating: 4.6,
@@ -195,40 +256,88 @@ const productInformation: Record<
 
   'orange-juice': {
     description:
-      'Refreshing orange juice with a bright citrus flavour. Enjoy chilled at breakfast or as a refreshing drink during the day.',
+      'Refreshing orange juice with a bright citrus flavour. Great at breakfast or as a chilled drink during the day.',
     nutrition: 'Approx. 45 kcal / 100ml',
     reviewCount: 105,
     rating: 4.5,
   },
 
-  'chicken-meat': {
+  chickpeas: {
     description:
-      'Fresh chicken meat suitable for everyday cooking. Ideal for curries, grilling, roasting, stir-fries, and homemade meals.',
-    nutrition: 'Approx. 165 kcal / 100g',
-    reviewCount: 88,
+      'Quality kabuli chickpeas suitable for chole, salads, hummus, chaats and everyday Indian meals. A convenient pantry staple.',
+    nutrition: 'Approx. 364 kcal / 100g dry',
+    reviewCount: 96,
+    rating: 4.7,
+  },
+
+  'green-gram': {
+    description:
+      'Clean green gram with a naturally nutty flavour. Perfect for dal, sprouts, curries and healthy home-cooked meals.',
+    nutrition: 'Approx. 347 kcal / 100g dry',
+    reviewCount: 82,
     rating: 4.6,
   },
 
-  'goat-meat': {
+  'red-kidney-beans': {
     description:
-      'Fresh goat meat suitable for traditional curries, stews, grills, and slow-cooked dishes.',
-    nutrition: 'Approx. 143 kcal / 100g',
-    reviewCount: 67,
+      'Quality red kidney beans ideal for rajma curry, salads, wraps and other hearty meals.',
+    nutrition: 'Approx. 333 kcal / 100g dry',
+    reviewCount: 74,
+    rating: 4.6,
+  },
+
+  'mustard-pulses': {
+    description:
+      'Aromatic mustard seeds commonly used for tempering dals, curries, vegetables, pickles and traditional Indian recipes.',
+    nutrition: 'Approx. 508 kcal / 100g',
+    reviewCount: 58,
     rating: 4.5,
   },
 
-  fish: {
+  'milk-chocolate': {
     description:
-      'Fresh fish suitable for a variety of home-cooked meals. Great for curries, frying, grilling, and steaming.',
-    nutrition: 'Varies by fish type',
-    reviewCount: 73,
-    rating: 4.5,
+      'Smooth and creamy milk chocolate with a rich cocoa flavour. Perfect for everyday chocolate cravings and desserts.',
+    nutrition: 'Approx. 535 kcal / 100g',
+    reviewCount: 143,
+    rating: 4.7,
+  },
+
+  'dark-chocolate': {
+    description:
+      'Rich dark chocolate with an intense cocoa flavour and a balanced bitter-sweet finish.',
+    nutrition: 'Approx. 598 kcal / 100g',
+    reviewCount: 119,
+    rating: 4.7,
+  },
+
+  'white-chocolate': {
+    description:
+      'Smooth and creamy white chocolate with a sweet milky flavour. Great for snacking, baking and desserts.',
+    nutrition: 'Approx. 539 kcal / 100g',
+    reviewCount: 87,
+    rating: 4.6,
+  },
+
+  'm-and-m': {
+    description:
+      'Colourful chocolate candies with a smooth chocolate centre and crunchy outer shell. Great for snacking and sharing.',
+    nutrition: 'Approx. 480 kcal / 100g',
+    reviewCount: 132,
+    rating: 4.7,
+  },
+
+  'ferrero-rocher': {
+    description:
+      'Premium chocolate hazelnut confection with a creamy centre, crisp wafer and hazelnut coating. Ideal for gifting or special occasions.',
+    nutrition: 'Approx. 603 kcal / 100g',
+    reviewCount: 188,
+    rating: 4.8,
   },
 }
 
 const defaultInformation: ProductInformation = {
   description:
-    'Fresh quality grocery product selected for your everyday shopping needs. Carefully presented to help you enjoy convenient and reliable groceries at home.',
+    'Fresh quality grocery product selected for your everyday shopping needs.',
   nutrition:
     'Nutrition information varies by product.',
   reviewCount: 0,
@@ -311,7 +420,7 @@ function ProductDetail() {
         </p>
 
         <Link
-          to="/"
+          to="/home"
           className="mt-4 text-sm font-semibold text-[#53B175]"
         >
           Back to home
@@ -337,7 +446,7 @@ function ProductDetail() {
       {/* Header */}
       <header className="flex items-center justify-between px-4 pt-5 md:mx-auto md:max-w-[1100px] md:px-8 md:pt-8">
         <Link
-          to="/"
+          to="/home"
           className="flex h-8 w-8 items-center text-xl text-[#181725]"
           aria-label="Back to home"
         >
@@ -380,7 +489,6 @@ function ProductDetail() {
 
           {/* Product Information */}
           <div className="px-4 pb-8 md:px-0 md:pt-2">
-            {/* Name + Favourite */}
             <div className="mt-5 flex items-start justify-between gap-4 md:mt-0">
               <div>
                 <h1 className="text-xl font-bold text-[#181725] md:text-3xl">
@@ -416,7 +524,7 @@ function ProductDetail() {
               <QuantityControl product={product} />
 
               <span className="text-xl font-bold text-[#181725] md:text-2xl">
-                ${product.price.toFixed(2)}
+                ₹{product.price.toFixed(2)}
               </span>
             </div>
 
