@@ -8,14 +8,23 @@ function Welcome() {
       <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col lg:flex-row">
         {/* Image section */}
         <div className="relative h-screen min-h-[600px] w-full overflow-hidden bg-[#E8F1E8] lg:h-screen lg:w-[55%]">
-          {/* Grocery person image */}
+          {/* Mobile image - full screen */}
           <img
             src="/images/grocery-person.png"
             alt="Grocery delivery person"
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            className="absolute inset-0 h-full w-full object-cover object-center lg:hidden"
           />
 
-          {/* Dark gradient for mobile readability */}
+          {/* Desktop image - show the complete image */}
+          <div className="absolute inset-0 hidden items-center justify-center bg-[#E8F1E8] lg:flex">
+            <img
+              src="/images/grocery-person.png"
+              alt="Grocery delivery person"
+              className="h-full w-full object-contain object-center"
+            />
+          </div>
+
+          {/* Mobile dark gradient */}
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/5 to-transparent lg:hidden" />
 
           {/* Mobile content */}
@@ -37,7 +46,7 @@ function Welcome() {
             <button
               type="button"
               onClick={() => navigate('/auth')}
-              className="mt-8 h-14 w-full rounded-xl bg-[#53B175] text-sm font-semibold text-white transition hover:bg-[#46A568] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/70"
+              className="mt-8 h-14 w-full rounded-xl bg-[#53B175] text-sm font-semibold text-white shadow-lg transition hover:bg-[#46A568] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-white/70"
             >
               Get Started
             </button>
