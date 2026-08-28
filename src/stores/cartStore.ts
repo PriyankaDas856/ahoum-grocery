@@ -13,7 +13,11 @@ interface CartState {
   items: CartItem[]
   addItem: (product: Product) => void
   removeItem: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
+  updateQuantity: (
+    productId: string,
+    quantity: number,
+    maxStock?: number,
+  ) => void
   reconcile: (products: Product[]) => void
   clearCart: () => void
 }
@@ -25,6 +29,10 @@ export const useCartStore = create<CartState>((set) => ({
 
   addItem: (product) =>
     set((state) => {
+      if (product.stock <= 0) {
+        return state
+      }
+
       const existingItem = state.items.find(
         (item) => item.productId === product.id,
       )
@@ -66,18 +74,31 @@ export const useCartStore = create<CartState>((set) => ({
       return { items }
     }),
 
-  updateQuantity: (productId, quantity) =>
+  updateQuantity: (productId, quantity, maxStock) =>
     set((state) => {
-      const items =
-        quantity <= 0
-          ? state.items.filter(
-              (item) => item.productId !== productId,
-            )
-          : state.items.map((item) =>
-              item.productId === productId
-                ? { ...item, quantity }
-                : item,
-            )
+      if (quantity <= 0) {
+        const items = state.items.filter(
+          (item) => item.productId !== productId,
+        )
+
+        saveCart(items)
+
+        return { items }
+      }
+
+      const safeQuantity =
+        maxStock !== undefined
+          ? Math.min(quantity, maxStock)
+          : quantity
+
+      const items = state.items.map((item) =>
+        item.productId === productId
+          ? {
+              ...item,
+              quantity: safeQuantity,
+            }
+          : item,
+      )
 
       saveCart(items)
 

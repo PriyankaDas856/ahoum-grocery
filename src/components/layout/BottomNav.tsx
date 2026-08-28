@@ -18,12 +18,12 @@ const navItems = [
   },
   {
     label: 'Favourite',
-    path: '/search',
+    path: '/favourites',
     icon: '♡',
   },
   {
     label: 'Account',
-    path: '/search',
+    path: '/account',
     icon: '♙',
   },
 ]

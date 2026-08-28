@@ -2,183 +2,311 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getProducts } from '../api/products'
 import type { Product } from '../api/types'
-import ProductCard from '../components/product/ProductCard'
+import ProductCarousel from '../components/product/ProductCarousel'
 
 const categories = [
   {
     name: 'Fruits & Vegetables',
     image: '/images/natural-red-apple.png',
+    background: 'bg-[#FFF4E5]',
   },
   {
     name: 'Cooking Oil & Ghee',
-    image: '/images/organic-bananas.png',
+    image: '/images/Cooking Oil & Ghee.png',
+    background: 'bg-[#FFF8E5]',
   },
   {
     name: 'Meat & Fish',
-    image: '/images/bell-pepper-red.png',
+    image: '/images/Meat & Fish.png',
+    background: 'bg-[#FFEFEF]',
   },
   {
     name: 'Bakery & Snacks',
-    image: '/images/egg-noodles.png',
+    image: '/images/biscuit.png',
+    background: 'bg-[#FFF3E8]',
   },
   {
     name: 'Dairy & Eggs',
-    image: '/images/egg-chicken-red.png',
+    image: '/images/fresh-milk.png',
+    background: 'bg-[#F2F8FF]',
   },
   {
     name: 'Beverages',
     image: '/images/sprite-can.png',
+    background: 'bg-[#F1F8F3]',
   },
 ]
+
+type UserLocation = {
+  city: string
+  area: string
+}
+
+function getSavedLocation(): UserLocation | null {
+  const savedLocation =
+    localStorage.getItem('userLocation')
+
+  if (!savedLocation) {
+    return null
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(
+      savedLocation,
+    )
+
+    if (
+      typeof parsed === 'object' &&
+      parsed !== null &&
+      'city' in parsed &&
+      'area' in parsed &&
+      typeof parsed.city === 'string' &&
+      typeof parsed.area === 'string'
+    ) {
+      return {
+        city: parsed.city,
+        area: parsed.area,
+      }
+    }
+  } catch {
+    localStorage.removeItem('userLocation')
+  }
+
+  return null
+}
 
 function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 
+  const [userLocation] =
+    useState<UserLocation | null>(() =>
+      getSavedLocation(),
+    )
+
   useEffect(() => {
     const controller = new AbortController()
 
     getProducts(controller.signal)
-      .then(setProducts)
-      .finally(() => setLoading(false))
+      .then((data) => {
+        if (!controller.signal.aborted) {
+          setProducts(data)
+        }
+      })
+      .catch((requestError: unknown) => {
+        if (
+          requestError instanceof DOMException &&
+          requestError.name === 'AbortError'
+        ) {
+          return
+        }
 
-    return () => controller.abort()
+        if (!controller.signal.aborted) {
+          setProducts([])
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
+      })
+
+    return () => {
+      controller.abort()
+    }
   }, [])
 
-  const exclusiveProducts = products.slice(0, 4)
-  const bestSellingProducts = products.slice(2, 6)
+  const exclusiveProducts = products.slice(0, 6)
+  const bestSellingProducts = products.slice(6, 12)
 
   return (
-    <div className="px-4 pt-5">
-      <header>
-        <div className="text-center">
-          <span className="text-2xl font-bold tracking-tight text-[#53B175]">
+    <div className="overflow-hidden">
+      {/* Header */}
+      <header className="px-4 pt-6 sm:px-6 lg:px-10">
+        <div className="flex justify-center">
+          <span className="text-2xl font-bold tracking-tight text-[#53B175] sm:text-3xl">
             nectar
           </span>
         </div>
 
-        <div className="mt-5 flex items-center justify-between">
-          <button
-            type="button"
-            className="text-sm text-gray-700"
-          >
-            📍 Dhaka, Banassre
-          </button>
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-[#4C4F4D]">
+          <span className="text-[#53B175]">
+            ⌖
+          </span>
 
-          <Link
-            to="/search"
-            className="text-gray-700"
-            aria-label="Search"
-          >
-            🔍
-          </Link>
+          <span>
+            {userLocation
+              ? `${userLocation.area}, ${userLocation.city}`
+              : 'Select your location'}
+          </span>
         </div>
       </header>
 
-      <Link
-        to="/category/Fruits & Vegetables"
-        className="mt-5 block overflow-hidden rounded-xl bg-[#eef8f2]"
-      >
-        <div className="p-4">
-          <p className="text-xs font-medium text-[#53B175]">
-            Fresh groceries
-          </p>
-          <h1 className="mt-1 text-xl font-bold text-gray-900">
-            Fresh vegetables
-          </h1>
-          <p className="mt-1 text-xs text-gray-500">
-            Get fresh products delivered to your door.
-          </p>
-        </div>
-      </Link>
+      {/* Search */}
+      <div className="mx-auto mt-5 max-w-[900px] px-4 sm:px-6 lg:px-10">
+        <Link
+          to="/search"
+          className="flex h-12 items-center rounded-xl bg-[#F2F3F2] px-4 text-sm text-[#7C7C7C] transition hover:bg-[#EDEEEE]"
+        >
+          <span className="text-base">
+            ⌕
+          </span>
 
-      <section className="mt-6">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <span className="ml-3">
+            Search Store
+          </span>
+        </Link>
+      </div>
+
+      {/* Hero */}
+      <section className="mx-auto mt-5 max-w-[1180px] px-4 sm:px-6 lg:px-10">
+        <Link
+          to="/category/Fruits%20%26%20Vegetables"
+          className="relative block min-h-[180px] overflow-hidden rounded-2xl bg-[#F0F8F3] sm:min-h-[220px] lg:min-h-[260px]"
+        >
+          {/* Hero text */}
+          <div className="relative z-20 flex h-full max-w-[60%] flex-col justify-center px-5 py-7 sm:max-w-[55%] sm:px-8 lg:max-w-[52%] lg:px-10">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-[#53B175] sm:text-xs">
+              Fresh groceries
+            </p>
+
+            <h1 className="mt-2 text-[24px] font-bold leading-7 text-[#181725] sm:text-[32px] sm:leading-9 lg:text-[40px] lg:leading-[1.08]">
+              Fresh vegetables
+              <br />
+              delivered to you
+            </h1>
+
+            <p className="mt-3 max-w-[280px] text-[10px] leading-4 text-[#7C7C7C] sm:text-xs sm:leading-5">
+              Fresh products at your doorstep.
+            </p>
+          </div>
+
+          {/* Hero images */}
+          <div className="pointer-events-none absolute bottom-0 right-0 h-full w-[45%] sm:w-[43%]">
+            <img
+              src="/images/organic-bananas.png"
+              alt=""
+              className="absolute bottom-1 left-0 h-[45%] w-[38%] object-contain sm:h-[52%]"
+            />
+
+            <img
+              src="/images/natural-red-apple.png"
+              alt=""
+              className="absolute bottom-[-6%] left-[20%] h-[72%] w-[50%] object-contain sm:h-[80%]"
+            />
+
+            <img
+              src="/images/bell-pepper-red.png"
+              alt=""
+              className="absolute bottom-0 right-0 h-[50%] w-[36%] object-contain sm:h-[58%]"
+            />
+          </div>
+        </Link>
+      </section>
+
+      {/* Exclusive Offer */}
+      <section className="mt-8 lg:mt-10">
+        <div className="mb-4 flex items-center justify-between px-4 sm:px-6 lg:px-10">
+          <h2 className="text-xl font-semibold text-[#181725] sm:text-2xl">
             Exclusive Offer
           </h2>
 
           <Link
-            to="/category/Fruits & Vegetables"
-            className="text-xs font-semibold text-[#53B175]"
+            to="/explore"
+            className="text-sm font-semibold text-[#53B175]"
           >
             See all
           </Link>
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-2 gap-3">
-            {[1, 2].map((item) => (
+          <div className="flex gap-3 overflow-hidden px-4 sm:px-6 lg:px-10">
+            {[1, 2, 3, 4].map((item) => (
               <div
                 key={item}
-                className="h-56 animate-pulse rounded-xl bg-gray-100"
+                className="h-64 w-[165px] shrink-0 animate-pulse rounded-2xl bg-gray-100 sm:w-[190px]"
               />
             ))}
           </div>
+        ) : exclusiveProducts.length > 0 ? (
+          <ProductCarousel
+            products={exclusiveProducts}
+          />
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {exclusiveProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
-            ))}
+          <div className="px-4 text-sm text-[#7C7C7C] sm:px-6 lg:px-10">
+            No products available right now.
           </div>
         )}
       </section>
 
-      <section className="mt-7">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+      {/* Best Selling */}
+      <section className="mt-8 lg:mt-10">
+        <div className="mb-4 flex items-center justify-between px-4 sm:px-6 lg:px-10">
+          <h2 className="text-xl font-semibold text-[#181725] sm:text-2xl">
             Best Selling
           </h2>
 
           <Link
             to="/explore"
-            className="text-xs font-semibold text-[#53B175]"
+            className="text-sm font-semibold text-[#53B175]"
           >
             See all
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          {bestSellingProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex gap-3 overflow-hidden px-4 sm:px-6 lg:px-10">
+            {[1, 2, 3, 4].map((item) => (
+              <div
+                key={item}
+                className="h-64 w-[165px] shrink-0 animate-pulse rounded-2xl bg-gray-100 sm:w-[190px]"
+              />
+            ))}
+          </div>
+        ) : bestSellingProducts.length > 0 ? (
+          <ProductCarousel
+            products={bestSellingProducts}
+          />
+        ) : (
+          <div className="px-4 text-sm text-[#7C7C7C] sm:px-6 lg:px-10">
+            No products available right now.
+          </div>
+        )}
       </section>
 
-      <section className="mt-7">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+      {/* Groceries */}
+      <section className="mt-8 pb-10 lg:mt-10 lg:pb-14">
+        <div className="mb-4 flex items-center justify-between px-4 sm:px-6 lg:px-10">
+          <h2 className="text-xl font-semibold text-[#181725] sm:text-2xl">
             Groceries
           </h2>
 
           <Link
             to="/explore"
-            className="text-xs font-semibold text-[#53B175]"
+            className="text-sm font-semibold text-[#53B175]"
           >
             See all
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 px-4 sm:grid-cols-3 sm:gap-4 sm:px-6 lg:grid-cols-6 lg:gap-5 lg:px-10">
           {categories.map((category) => (
             <Link
               key={category.name}
-              to={`/category/${encodeURIComponent(category.name)}`}
-              className="flex h-24 items-center gap-3 rounded-xl bg-gray-50 p-3"
+              to={`/category/${encodeURIComponent(
+                category.name,
+              )}`}
+              className={`flex min-h-[150px] flex-col items-center justify-center rounded-xl p-3 text-center transition hover:-translate-y-1 hover:shadow-md sm:min-h-[175px] lg:min-h-[190px] ${category.background}`}
             >
-              <img
-                src={category.image}
-                alt=""
-                className="h-16 w-16 object-contain"
-              />
+              <div className="flex h-24 w-full items-center justify-center sm:h-28 lg:h-32">
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="h-20 w-20 object-contain sm:h-24 sm:w-24 lg:h-28 lg:w-28"
+                />
+              </div>
 
-              <span className="text-xs font-semibold text-gray-800">
+              <span className="mt-2 text-[11px] font-medium leading-4 text-[#181725] sm:text-xs lg:text-sm">
                 {category.name}
               </span>
             </Link>

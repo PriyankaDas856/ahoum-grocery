@@ -7,19 +7,38 @@ interface QuantityControlProps {
 
 function QuantityControl({ product }: QuantityControlProps) {
   const item = useCartStore((state) =>
-    state.items.find((cartItem) => cartItem.productId === product.id),
+    state.items.find(
+      (cartItem) => cartItem.productId === product.id,
+    ),
   )
-  const updateQuantity = useCartStore((state) => state.updateQuantity)
+
+  const updateQuantity = useCartStore(
+    (state) => state.updateQuantity,
+  )
 
   const quantity = item?.quantity ?? 0
+
+  const decreaseQuantity = () => {
+    updateQuantity(
+      product.id,
+      quantity - 1,
+      product.stock,
+    )
+  }
+
+  const increaseQuantity = () => {
+    updateQuantity(
+      product.id,
+      quantity + 1,
+      product.stock,
+    )
+  }
 
   return (
     <div className="flex items-center gap-3">
       <button
         type="button"
-        onClick={() =>
-          updateQuantity(product.id, quantity - 1)
-        }
+        onClick={decreaseQuantity}
         disabled={quantity === 0}
         className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-xl text-gray-500 disabled:opacity-30"
         aria-label={`Decrease ${product.name} quantity`}
@@ -27,16 +46,20 @@ function QuantityControl({ product }: QuantityControlProps) {
         −
       </button>
 
-      <span className="min-w-5 text-center text-sm font-semibold">
+      <span
+        className="min-w-5 text-center text-sm font-semibold text-[#181725]"
+        aria-label={`Quantity: ${quantity}`}
+      >
         {quantity}
       </span>
 
       <button
         type="button"
-        onClick={() =>
-          updateQuantity(product.id, quantity + 1)
+        onClick={increaseQuantity}
+        disabled={
+          product.stock === 0 ||
+          quantity >= product.stock
         }
-        disabled={quantity >= product.stock}
         className="flex h-9 w-9 items-center justify-center rounded-full border border-[#53B175] text-xl text-[#53B175] disabled:opacity-30"
         aria-label={`Increase ${product.name} quantity`}
       >
