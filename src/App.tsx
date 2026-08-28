@@ -1,11 +1,7 @@
+import { AppRouter } from './router'
+
 function App() {
-  return (
-    <main className="flex min-h-screen items-center justify-center">
-      <h1 className="text-4xl font-bold">
-        Ahoum Grocery
-      </h1>
-    </main>
-  )
+  return <AppRouter />
 }
 
 export default App
