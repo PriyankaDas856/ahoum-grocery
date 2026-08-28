@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   GoogleAuthProvider,
-  getRedirectResult,
-  signInWithRedirect,
+  signInWithPopup,
 } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../lib/firebase'
@@ -16,32 +15,6 @@ function Auth() {
   const [googleError, setGoogleError] =
     useState<string | null>(null)
 
-  useEffect(() => {
-    const checkGoogleRedirect = async () => {
-      try {
-        const result = await getRedirectResult(auth)
-
-        if (result?.user) {
-          navigate('/home', { replace: true })
-          return
-        }
-      } catch (error: unknown) {
-        console.error(
-          'Google redirect sign-in failed:',
-          error,
-        )
-
-        setGoogleError(
-          'Google sign-in was unsuccessful. Please try again.',
-        )
-      } finally {
-        setGoogleLoading(false)
-      }
-    }
-
-    void checkGoogleRedirect()
-  }, [navigate])
-
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true)
     setGoogleError(null)
@@ -53,14 +26,21 @@ function Auth() {
         prompt: 'select_account',
       })
 
-      await signInWithRedirect(auth, provider)
+      const result = await signInWithPopup(
+        auth,
+        provider,
+      )
+
+      if (result.user) {
+        navigate('/home', { replace: true })
+      }
     } catch (error: unknown) {
       console.error('Google sign-in failed:', error)
 
       setGoogleError(
-        'Unable to sign in with Google. Please try again.',
+        'Google sign-in was unsuccessful. Please try again.',
       )
-
+    } finally {
       setGoogleLoading(false)
     }
   }
@@ -109,11 +89,11 @@ function Auth() {
           className="mt-7 flex h-12 w-full items-center border-b border-[#E2E2E2] text-left focus:outline-none focus:ring-2 focus:ring-[#53B175] focus:ring-offset-2"
         >
           <span className="mr-3 text-lg">
-            🇧🇩
+            🇮🇳
           </span>
 
           <span className="text-sm text-[#181725]">
-            +880
+            +91
           </span>
 
           <span className="ml-2 text-sm text-[#7C7C7C]">
@@ -144,7 +124,7 @@ function Auth() {
           </span>
 
           {googleLoading
-            ? 'Redirecting...'
+            ? 'Signing in...'
             : 'Continue with Google'}
         </button>
 
@@ -166,7 +146,7 @@ function Auth() {
               'Facebook sign-in is not configured yet.',
             )
           }}
-          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white transition hover:bg-[#455D9E] focus:outline-none focus:ring-2 focus:ring-[#4F68AD] focus:ring-offset-2"
+          className="mt-4 flex h-14 w-full items-center justify-center rounded-xl bg-[#4F68AD] text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#4F68AD] focus:ring-offset-2"
         >
           <span className="mr-4 text-xl font-bold">
             f
@@ -180,7 +160,7 @@ function Auth() {
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175]"
+            className="font-semibold text-[#53B175]"
           >
             Log In
           </Link>
@@ -191,7 +171,7 @@ function Auth() {
           Don't have an account?{' '}
           <Link
             to="/signup"
-            className="font-semibold text-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175]"
+            className="font-semibold text-[#53B175]"
           >
             Sign Up
           </Link>
