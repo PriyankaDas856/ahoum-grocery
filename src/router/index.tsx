@@ -1,4 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from 'react-router-dom'
+
 import AppShell from '../components/layout/AppShell'
 
 import Splash from '../pages/Splash'
@@ -21,6 +26,9 @@ import Signup from '../pages/Signup'
 
 import Favourite from '../pages/Favourite'
 import Account from '../pages/Account'
+import Orders from '../pages/Orders'
+import AccountDetails from '../pages/AccountDetails'
+import DeliveryAddress from '../pages/DeliveryAddress'
 
 export function AppRouter() {
   return (
@@ -105,11 +113,28 @@ export function AppRouter() {
             element={<Favourite />}
           />
 
+          {/* Account */}
           <Route
             path="/account"
             element={<Account />}
           />
 
+          <Route
+            path="/orders"
+            element={<Orders />}
+          />
+
+          <Route
+            path="/account/details"
+            element={<AccountDetails />}
+          />
+
+          <Route
+            path="/account/address"
+            element={<DeliveryAddress />}
+          />
+
+          {/* Checkout */}
           <Route
             path="/checkout"
             element={<Checkout />}
