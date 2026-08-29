@@ -12,6 +12,7 @@ import Explore from '../pages/Explore'
 import CategoryListing from '../pages/CategoryListing'
 import ProductDetail from '../pages/ProductDetail'
 import Search from '../pages/Search'
+import Filters from '../pages/Filters'
 import Cart from '../pages/Cart'
 import Checkout from '../pages/Checkout'
 import CheckoutResult from '../pages/CheckoutResult'
@@ -74,6 +75,12 @@ export function AppRouter() {
         <Route
           path="/signup"
           element={<Signup />}
+        />
+
+        {/* Filters */}
+        <Route
+          path="/filters"
+          element={<Filters />}
         />
 
         {/* Main Application */}
