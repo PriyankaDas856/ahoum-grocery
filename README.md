@@ -67,16 +67,61 @@ The application also reconciles persisted cart data against the latest product d
 
 ### 🔐 Authentication
 
-Firebase Authentication is used for:
+The application provides an onboarding and authentication flow:
 
+```text
+Splash
+   ↓
+Welcome
+   ↓
+Authentication
+   ↓
+Phone Number / Google Sign-In
+   ↓
+Location
+   ↓
+Home
+```
+
+Authentication features include:
+
+* Splash screen
 * Welcome screen
-* Login and Signup flows
-* Phone number authentication
-* OTP verification
+* Authentication screen
+* Phone number entry
+* Country selection and calling codes
+* Demo OTP verification
 * Google Sign-In
-* Authentication state handling
+* Location selection
 
-The product catalogue remains accessible without requiring authentication.
+#### Google Sign-In
+
+Google Sign-In is implemented using **Firebase Authentication**.
+
+After successful Google authentication, users continue to the location-selection stage before entering the main shopping experience.
+
+#### Demo Phone Authentication
+
+The phone-number interface remains part of the authentication experience.
+
+Users can:
+
+* Select a country
+* Select a country calling code
+* Enter a mobile number
+* Continue to OTP verification
+
+To avoid requiring paid SMS delivery or Firebase Phone Authentication billing, the project uses a **demo OTP flow** instead of sending a real SMS.
+
+**Demo verification code:**
+
+```text
+123456
+```
+
+Entering an incorrect code displays a validation message explaining that the demo code is `123456`.
+
+This allows the complete phone-authentication journey to be demonstrated without requiring real SMS delivery.
 
 ### 📍 Location
 
@@ -117,9 +162,16 @@ Desktop uses a dedicated layout adaptation with:
 | **Tailwind CSS** | Styling and responsive design        |
 | **React Router** | Client-side navigation               |
 | **Zustand**      | Global state management              |
-| **Firebase**     | Phone and Google authentication      |
+| **Firebase**     | Google authentication                |
 | **Vitest**       | Automated testing                    |
 | **ESLint**       | Code quality and linting             |
+
+The project does not use:
+
+* Redux
+* MobX
+* Context API for global state
+* External UI component libraries
 
 ---
 
@@ -135,7 +187,7 @@ State is separated by responsibility into independent stores:
 * `favouriteStore` — favourite products
 * `searchStore` — search request state and stale-response protection
 
-Zustand's `persist` middleware is used where persistent browser state is required.
+Zustand persistence is used where persistent browser state is required.
 
 ### Data Layer
 
@@ -145,7 +197,12 @@ Product access is isolated inside:
 src/api/
 ```
 
-The application uses **typed product data** and a **mock API layer with variable request latency**.
+The application uses:
+
+* Typed product data
+* A mock product catalogue
+* A dedicated product API layer
+* Simulated request latency where required
 
 This keeps product access separate from UI components and makes the data layer easier to replace with a real backend in the future.
 
@@ -153,19 +210,23 @@ This keeps product access separate from UI components and makes the data layer e
 
 **React Router** handles client-side navigation.
 
-The application does not use:
+The router is located at:
 
-* Redux
-* MobX
-* Context API
-* UI component libraries
+```text
+src/router/index.tsx
+```
+
+The application is divided into onboarding/authentication routes and the main shopping application.
+
+The main application uses `AppShell` and shared navigation components.
 
 ### Authentication
 
-Firebase Authentication handles:
+Firebase Authentication is used for:
 
-* Phone number authentication with OTP
 * Google Sign-In
+
+The phone-number authentication interface is implemented as a **demo OTP flow** and does not send real SMS messages.
 
 Firebase configuration is provided through environment variables.
 
@@ -177,67 +238,94 @@ Firebase configuration is provided through environment variables.
 ahoum-grocery/
 │
 ├── public/
-│   └── images/
+│   ├── images/
+│   │   ├── product images
+│   │   ├── auth.png
+│   │   └── other application images
+│   │
+│   └── mock-data/
+│       └── products.json
 │
 ├── src/
-│
+│   │
 │   ├── api/
+│   │   ├── client.ts
 │   │   ├── products.ts
 │   │   └── types.ts
-│
+│   │
+│   ├── assets/
+│   │
 │   ├── components/
+│   │   ├── cart/
+│   │   │
 │   │   ├── layout/
 │   │   │   ├── AppShell.tsx
 │   │   │   └── BottomNav.tsx
 │   │   │
-│   │   └── product/
-│   │       ├── ProductCard.tsx
-│   │       ├── ProductCarousel.tsx
-│   │       ├── ProductGrid.tsx
-│   │       └── QuantityControl.tsx
-│
-│   ├── pages/
-│   │   ├── Home.tsx
-│   │   ├── Explore.tsx
-│   │   ├── CategoryListing.tsx
-│   │   ├── ProductDetail.tsx
-│   │   ├── Search.tsx
-│   │   ├── Cart.tsx
-│   │   ├── Checkout.tsx
-│   │   ├── CheckoutResult.tsx
-│   │   ├── Favourite.tsx
-│   │   ├── Account.tsx
-│   │   ├── Welcome.tsx
-│   │   ├── Auth.tsx
-│   │   ├── Login.tsx
-│   │   ├── Signup.tsx
-│   │   ├── MobileNumber.tsx
-│   │   ├── Otp.tsx
-│   │   └── Location.tsx
-│
-│   ├── stores/
-│   │   ├── cartStore.ts
-│   │   ├── favouriteStore.ts
-│   │   └── searchStore.ts
-│
+│   │   ├── product/
+│   │   │   ├── ProductCard.tsx
+│   │   │   ├── ProductCarousel.tsx
+│   │   │   ├── ProductGrid.tsx
+│   │   │   └── QuantityControl.tsx
+│   │   │
+│   │   ├── ui/
+│   │   │
+│   │   └── Hero.tsx
+│   │
+│   ├── hooks/
+│   │
 │   ├── lib/
 │   │   ├── firebase.ts
-│   │   ├── phoneAuth.ts
 │   │   ├── mockLatency.ts
+│   │   ├── phoneAuth.ts
+│   │   ├── promotions.ts
+│   │   ├── promotions.test.ts
 │   │   ├── reconcileCart.ts
-│   │   └── ...
-│
+│   │   └── reconcileCart.test.ts
+│   │
+│   ├── pages/
+│   │   ├── Account.tsx
+│   │   ├── Auth.tsx
+│   │   ├── Cart.tsx
+│   │   ├── CategoryListing.tsx
+│   │   ├── Checkout.tsx
+│   │   ├── CheckoutResult.tsx
+│   │   ├── Explore.tsx
+│   │   ├── Favourite.tsx
+│   │   ├── Filters.tsx
+│   │   ├── Home.tsx
+│   │   ├── Location.tsx
+│   │   ├── Login.tsx
+│   │   ├── MobileNumber.tsx
+│   │   ├── Otp.tsx
+│   │   ├── ProductDetail.tsx
+│   │   ├── Search.tsx
+│   │   ├── Signup.tsx
+│   │   ├── Splash.tsx
+│   │   └── Welcome.tsx
+│   │
 │   ├── router/
 │   │   └── index.tsx
 │   │
+│   ├── stores/
+│   │   ├── cartStorage.ts
+│   │   ├── cartStore.ts
+│   │   ├── favouriteStore.ts
+│   │   └── searchStore.ts
+│   │
+│   ├── styles/
+│   │
+│   ├── App.tsx
+│   ├── index.css
 │   └── main.tsx
 │
 ├── .gitignore
 ├── package.json
 ├── package-lock.json
 ├── vite.config.ts
+├── tsconfig.app.json
 ├── tsconfig.json
-└── README.md
+└── tsconfig.node.json
 ```
 
 ---
@@ -285,17 +373,18 @@ VITE_FIREBASE_APP_ID=your_app_id
 
 > ⚠️ **Never commit `.env` or files containing private credentials to GitHub.**
 
-### 5. Configure Firebase Authentication
+### 5. Configure Firebase Google Authentication
 
 In the Firebase Console:
 
 1. Open the Firebase project.
 2. Go to **Authentication**.
 3. Open **Sign-in method**.
-4. Enable **Phone** authentication.
-5. Enable **Google** sign-in.
-6. Configure the required authorized domains.
-7. Verify that the environment variables are correctly configured.
+4. Enable **Google** sign-in.
+5. Configure the required authorized domains.
+6. Verify that the environment variables are correctly configured.
+
+> **Phone Authentication does not need to be enabled in Firebase.** The phone-number flow uses the project's demo OTP implementation and does not send real SMS messages.
 
 ### 6. Start the development server
 
@@ -309,25 +398,48 @@ Vite will provide the local development URL in the terminal.
 
 ## 🗺️ Application Routes
 
-| Route                 | Page               |
-| --------------------- | ------------------ |
-| `/`                   | Home               |
-| `/explore`            | Explore            |
-| `/search`             | Search             |
-| `/cart`               | Cart               |
-| `/favourites`         | Favourites         |
-| `/account`            | Account            |
-| `/category/:category` | Category Listing   |
-| `/product/:id`        | Product Details    |
-| `/checkout`           | Checkout           |
-| `/checkout/:result`   | Checkout Result    |
-| `/welcome`            | Welcome            |
-| `/auth`               | Authentication     |
-| `/auth/phone`         | Mobile Number      |
-| `/auth/otp`           | OTP Verification   |
-| `/auth/location`      | Location Selection |
-| `/login`              | Login              |
-| `/signup`             | Signup             |
+| Route                 | Page                  |
+| --------------------- | --------------------- |
+| `/`                   | Redirects to Splash   |
+| `/splash`             | Splash Screen         |
+| `/welcome`            | Welcome               |
+| `/auth`               | Authentication        |
+| `/auth/phone`         | Mobile Number         |
+| `/auth/otp`           | Demo OTP Verification |
+| `/auth/location`      | Location Selection    |
+| `/login`              | Login                 |
+| `/signup`             | Signup                |
+| `/home`               | Home                  |
+| `/explore`            | Explore               |
+| `/search`             | Search                |
+| `/cart`               | Cart                  |
+| `/favourites`         | Favourites            |
+| `/account`            | Account               |
+| `/category/:category` | Category Listing      |
+| `/product/:id`        | Product Details       |
+| `/checkout`           | Checkout              |
+| `/checkout/:result`   | Checkout Result       |
+
+### Authentication Route Flow
+
+```text
+/splash
+   ↓
+/welcome
+   ↓
+/auth
+   ├── /auth/phone
+   │       ↓
+   │   /auth/otp
+   │
+   └── Google Sign-In
+           ↓
+       /auth/location
+           ↓
+         /home
+```
+
+The phone route uses the demo OTP code `123456`.
 
 ---
 
@@ -341,7 +453,14 @@ Current tests cover important application logic, including:
 * Search state behaviour
 * Promotion logic
 
-The search implementation also includes **stale-response protection**, ensuring that an older request cannot overwrite the result of a newer search request.
+The search implementation includes **stale-response protection**, ensuring that an older request cannot overwrite the result of a newer search request.
+
+Cart reconciliation tests cover scenarios such as:
+
+* Removed products
+* Changed prices
+* Invalid quantities
+* Stock changes
 
 Run the test suite with:
 
@@ -380,6 +499,9 @@ Key design characteristics include:
 * Consistent spacing and typography
 * Visible keyboard focus states
 * Clear loading, empty, and error states
+* Dedicated splash screen
+* Responsive authentication screens
+* Responsive onboarding flow
 
 Desktop adaptations and their design reasoning are documented separately in `DESIGN_NOTES.md`.
 
@@ -397,8 +519,11 @@ Current limitations include:
 * No real payment gateway
 * No order history backend
 * No live delivery tracking
-* Firebase authentication requires valid project configuration
+* Phone OTP delivery is simulated rather than sent through SMS
+* Firebase is used for Google Sign-In
 * Automated test coverage currently focuses on core application logic rather than full end-to-end coverage
+
+The demo phone authentication flow does not require Firebase billing or paid SMS services.
 
 ---
 
@@ -409,6 +534,7 @@ With additional development time, the application could be extended with:
 * Real backend/API integration
 * Live inventory management
 * Real payment gateway integration
+* Real SMS authentication
 * Order history and tracking
 * User profiles and saved addresses
 * Product reviews
@@ -416,6 +542,20 @@ With additional development time, the application could be extended with:
 * End-to-end testing
 * Image optimization and lazy loading
 * Admin dashboard and order management
+
+---
+
+## 📚 Project Documentation
+
+Additional project documentation is available in the repository:
+
+| Document          | Description                                                                           |
+| ----------------- | ------------------------------------------------------------------------------------- |
+| `ARCHITECTURE.md` | Application architecture, data flow, routing, state management, and project structure |
+| `DEBUGGING.md`    | Significant development issues, root causes, fixes, and verification                  |
+| `DESIGN_NOTES.md` | Responsive design decisions and Figma implementation notes                            |
+| `DECISIONS.md`    | Important technical and architectural decisions                                       |
+| `PROMPT_LOG.md`   | Record of AI-assisted development and prompting                                       |
 
 ---
 
