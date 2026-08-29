@@ -1,192 +1,521 @@
-# PROMPT LOG
+#  Prompt Log
 
-AI assistance was used selectively during development, primarily for
-debugging, troubleshooting, implementation verification, and resolving
-issues encountered during testing.
+This document records how AI assistance was used during the development of **Ahoum Grocery**.
 
-The application architecture, features, UI implementation, and integration
-were developed and assembled as part of the project. AI-generated
-suggestions were reviewed, modified where necessary, and tested before
-being accepted.
+AI was used selectively as a development-support tool for tasks such as debugging, understanding technical errors, evaluating implementation approaches, improving responsive behaviour, and reviewing technical decisions.
+
+The application was designed, implemented, integrated, tested, and verified as part of the project development process. AI suggestions were treated as **supporting guidance rather than final implementations**. Suggestions were reviewed against the existing project structure and requirements, modified where necessary, implemented, and verified through testing.
 
 ---
 
-## 1. Firebase Authentication Import Error
+# 1. Firebase Authentication Import Error
 
-**Tool/Model:** ChatGPT
+### Tool / Model
 
-**Problem/Prompt:**
+**ChatGPT**
 
-The application produced the following error while implementing Firebase
-Phone Authentication:
+### Problem
 
-`Uncaught SyntaxError: The requested module ... firebase_auth.js does not
-provide an export named 'ConfirmationResult'`
+While working on the authentication implementation, the browser displayed:
 
-I asked ChatGPT to identify the cause of the error and suggest the correct
-Firebase implementation.
+```text
+Uncaught SyntaxError: The requested module
+'/node_modules/.vite/deps/firebase_auth.js'
+does not provide an export named 'ConfirmationResult'
+```
 
-**What I used:**
+The application could not load the authentication flow correctly.
 
-- Diagnosis of the Firebase import issue
-- Guidance on the correct Firebase Authentication API usage
+### Assistance Requested
 
-**What I changed/rejected:**
+I asked ChatGPT to help identify why the Firebase Authentication module was failing to import `ConfirmationResult`.
 
-I reviewed the suggested solution and corrected the Firebase authentication
-implementation in the project rather than directly relying on the generated
-code.
+### What AI Helped With
 
-**Verification:**
+AI helped identify that `ConfirmationResult` should be treated as a **TypeScript type** rather than as a runtime Firebase export.
 
-Restarted the development server and tested the authentication flow again.
-The import error was resolved.
+### What I Did
 
----
+I inspected the existing Firebase authentication implementation and changed the import to use the appropriate TypeScript type-import approach.
 
-## 2. Firebase Phone Authentication Configuration
+The existing authentication structure was retained rather than replacing the implementation entirely.
 
-**Tool/Model:** ChatGPT
+### Verification
 
-**Problem/Prompt:**
+I restarted the Vite development server and tested the authentication screens again.
 
-Firebase Phone Authentication was not working correctly even though the
-frontend authentication flow had been implemented.
-
-I asked for help identifying what needed to be configured in Firebase.
-
-**What I used:**
-
-- Guidance on enabling Phone Authentication
-- Guidance on checking Firebase Authentication settings
-- Guidance on authorized domains and Firebase configuration
-
-**What I changed/rejected:**
-
-I configured the Firebase project manually and verified the authentication
-settings instead of treating the frontend implementation as sufficient.
-
-**Verification:**
-
-Tested the phone authentication flow and confirmed that Firebase proceeded
-with sending the verification code.
+The module import error was no longer present.
 
 ---
 
-## 3. Favourite Navigation Issue
+# 2. Firebase Phone Authentication Investigation
 
-**Tool/Model:** ChatGPT
+### Tool / Model
 
-**Problem/Prompt:**
+**ChatGPT**
 
-The Favourite page was not opening correctly when navigating to it.
+### Problem
 
-The project had inconsistent route names:
+The original implementation attempted to use Firebase Phone Authentication to send real OTP messages.
 
-- `/favourite`
-- `/favourites`
+During testing, Firebase returned:
 
-I asked ChatGPT to help identify why the route was not resolving correctly.
+```text
+auth/billing-not-enabled
+```
 
-**What I used:**
+The browser console also showed the Firebase Phone Authentication request failing.
 
-- Identification of the route mismatch
-- Guidance on keeping the route consistent between the router and navigation
+### Assistance Requested
 
-**What I changed/rejected:**
+I asked ChatGPT to help interpret the Firebase error and determine whether the problem was caused by the frontend implementation or Firebase configuration.
 
-I standardized the Favourite route across the application and updated the
-navigation accordingly.
+### What AI Helped With
 
-**Verification:**
+AI helped explain that Firebase Phone Authentication requires the appropriate Firebase configuration and that real SMS authentication may require billing.
 
-Opened the Favourite page directly and tested navigation through the
-application's bottom navigation.
+### What I Decided
 
----
+Instead of introducing a paid SMS dependency, I decided to change the authentication flow to a **demo OTP implementation**.
 
-## 4. Responsive Layout Issue
+The existing phone-number screen was retained because it is part of the intended application flow.
 
-**Tool/Model:** ChatGPT
+The following functionality was also retained:
 
-**Problem/Prompt:**
+* Country selector
+* Country flags
+* Country calling codes
+* Phone-number validation
 
-The application was initially designed with a strong mobile-first layout.
-When viewed on a desktop screen, some sections did not use the available
-space effectively and the interface did not look balanced.
+### Final Implementation
 
-I asked for suggestions on improving the responsive layout.
+The phone authentication flow became:
 
-**What I used:**
+```text
+Phone Number
+     ↓
+Demo OTP
+     ↓
+123456
+     ↓
+Location
+```
 
-- Suggestions for responsive Tailwind breakpoints
-- Guidance on desktop spacing and sizing
-- Suggestions for responsive product grids and hero sections
+The demo verification code is:
 
-**What I changed/rejected:**
+```text
+123456
+```
 
-I adapted the suggestions to the existing application rather than replacing
-the original layout. Desktop-specific sizing, spacing, and grid behaviour
-were added where necessary.
+If an incorrect code is entered, the application displays an appropriate validation message.
 
-**Verification:**
+This allows the complete phone-authentication experience to be demonstrated without requiring paid SMS delivery.
 
-Tested the application at mobile and desktop viewport sizes and checked the
-home page, product sections, category layout, and navigation.
+### Verification
 
----
+I tested:
 
-# What AI Got Wrong / What I Corrected
+* Country selection
+* Country calling-code changes
+* Phone-number validation
+* Navigation to the OTP screen
+* Correct demo code
+* Incorrect OTP handling
+* Navigation to Location after successful verification
 
-## 1. Hardcoded Country Code
-
-An earlier implementation of the mobile authentication screen used a
-hardcoded Bangladesh country code (`+880`).
-
-This did not match the intended user experience because users should be able
-to select their country code.
-
-**Correction:**
-
-I changed the implementation to provide a country selector with flags,
-calling codes, and country-specific phone-number validation.
-
-**Verification:**
-
-Tested changing countries and verified that the selected country code and
-phone-number validation changed accordingly.
+The final implementation no longer depends on Firebase SMS delivery.
 
 ---
 
-## 2. Favourite Route Inconsistency
+# 3. Google Authentication
 
-The Favourite functionality initially used inconsistent route names,
-resulting in the Favourite page not opening correctly from every location.
+### Tool / Model
 
-**Correction:**
+**ChatGPT**
 
-I standardized the route and updated the router and navigation to use the
-same path.
+### Problem
 
-**Verification:**
+Google Sign-In needed to be integrated into the authentication screen using the existing Firebase configuration.
 
-Tested the Favourite page directly and through the bottom navigation.
+### Assistance Requested
+
+I asked for guidance on implementing Google Sign-In using the Firebase Authentication SDK while preserving the existing UI and navigation structure.
+
+### What AI Helped With
+
+AI provided guidance on:
+
+* `GoogleAuthProvider`
+* `signInWithPopup`
+* Loading states
+* Authentication error handling
+* Redirecting the user after successful authentication
+
+### What I Did
+
+I integrated the Firebase Google authentication flow into the existing `Auth.tsx` screen.
+
+The authentication UI, button styling, loading behaviour, error handling, and routing were adapted to the application's existing design rather than copied directly.
+
+### Verification
+
+I tested the Google Sign-In flow and verified that successful authentication navigates the user to the next stage of the application flow.
 
 ---
 
-## AI Usage Approach
+# 4. Favourite Route Mismatch
 
-AI was not used as a replacement for the development process.
+### Tool / Model
 
-The development workflow was:
+**ChatGPT**
 
-1. Build the required feature.
-2. Run and test the application.
-3. Identify errors or unexpected behaviour.
-4. Use AI when additional debugging or technical clarification was needed.
-5. Review the suggested solution.
-6. Implement the appropriate fix manually.
-7. Retest the affected feature.
+### Problem
 
-The final implementation was reviewed and tested as part of the project
-rather than being accepted solely because it was AI-generated.
+The Favourite page was not consistently reachable because different parts of the application used different route names:
+
+```text
+/favourite
+```
+
+and:
+
+```text
+/favourites
+```
+
+React Router treats these as separate routes.
+
+### Assistance Requested
+
+I asked ChatGPT to help identify why the Favourite page was not resolving correctly.
+
+### What AI Helped With
+
+AI helped identify that the two paths represented different React Router routes.
+
+### What I Did
+
+I inspected the router and navigation components and standardized the Favourite route throughout the application.
+
+The router and navigation references were updated to use the same route.
+
+### Verification
+
+I tested:
+
+* Direct navigation to the Favourite page
+* Bottom navigation
+* Product favourite toggling
+* Adding a product to favourites
+* Viewing the product from the Favourite page
+
+The Favourite navigation then behaved consistently.
+
+---
+
+# 5. Responsive Layout Improvements
+
+### Tool / Model
+
+**ChatGPT**
+
+### Problem
+
+The initial implementation was primarily designed around the mobile layout.
+
+When viewed on larger desktop screens, some sections did not use the available space effectively.
+
+### Assistance Requested
+
+I asked ChatGPT for suggestions on improving the responsive layout while maintaining the existing design direction and Figma reference.
+
+### What AI Helped With
+
+AI suggested approaches involving:
+
+* Tailwind responsive breakpoints
+* Desktop-specific spacing
+* Responsive product grids
+* Maximum content widths
+* Responsive hero sizing
+* Desktop adaptations of mobile layouts
+
+### What I Did
+
+I reviewed the suggestions and applied only the changes that fit the existing application.
+
+I manually adjusted:
+
+* Container widths
+* Grid columns
+* Spacing
+* Product card sizing
+* Hero dimensions
+* Category layouts
+* Authentication layout
+* Desktop and mobile breakpoints
+
+The original design direction was retained rather than replacing the interface with a new design.
+
+### Verification
+
+I tested the application at different viewport sizes and checked:
+
+* Home
+* Explore
+* Categories
+* Product sections
+* Authentication
+* Navigation
+* Cart
+* Checkout
+
+The layouts were adjusted to behave appropriately across mobile and desktop screens.
+
+---
+
+# 6. Authentication UI and Hero Image
+
+### Tool / Model
+
+**ChatGPT**
+
+### Problem
+
+The authentication page needed to match the provided mobile reference while also maintaining a suitable desktop layout.
+
+The original authentication hero used individual emoji elements instead of the intended grocery image.
+
+### Assistance Requested
+
+I asked ChatGPT to help adapt the authentication hero section so that the provided grocery image would appear correctly on mobile and desktop.
+
+### What AI Helped With
+
+AI provided suggestions for:
+
+* Responsive hero height
+* Image positioning
+* `object-contain`
+* Mobile and desktop breakpoints
+* Keeping the image at the top of the page on desktop
+
+### What I Did
+
+I integrated the project asset:
+
+```text
+/public/images/auth.png
+```
+
+and adjusted its responsive styling to match the intended reference.
+
+The authentication content remains below the image on both mobile and desktop rather than moving the image to the side on desktop.
+
+### Verification
+
+I tested the authentication screen at mobile and desktop viewport sizes and adjusted the image sizing and spacing accordingly.
+
+---
+
+# 7. Splash Screen and Application Entry Flow
+
+### Tool / Model
+
+**ChatGPT**
+
+### Problem
+
+The application needed a dedicated splash screen before the welcome and authentication experience.
+
+### Assistance Requested
+
+I asked for help implementing the splash screen as the first screen shown when the application starts.
+
+### What I Did
+
+I integrated the splash screen into the existing React Router structure and updated the application entry route.
+
+The intended application flow became:
+
+```text
+Splash
+   ↓
+Welcome
+   ↓
+Authentication
+   ↓
+Phone Number / Google
+   ↓
+Location
+   ↓
+Home
+```
+
+### Verification
+
+I started the application from the root route and verified that the splash screen appears before the welcome page.
+
+I also tested navigation through the complete onboarding and authentication flow.
+
+---
+
+# 🔍 AI-Assisted Code Review
+
+AI was also used selectively for code review and implementation checks.
+
+Examples included:
+
+* Checking TypeScript errors
+* Reviewing React component structure
+* Checking React Router navigation
+* Reviewing asynchronous request handling
+* Checking loading and error states
+* Reviewing responsive Tailwind classes
+* Understanding browser console errors
+* Checking Firebase error messages
+* Reviewing state-management implementation
+
+These reviews were used as supporting feedback rather than as replacements for implementation or testing.
+
+---
+
+# 🧪 Manual Development and Verification
+
+The project was developed through an iterative implementation and testing process.
+
+The general workflow was:
+
+```text
+1. Understand the required feature or screen
+          ↓
+2. Implement the feature
+          ↓
+3. Run the development server
+          ↓
+4. Test the feature manually
+          ↓
+5. Inspect browser / terminal errors
+          ↓
+6. Identify the affected area
+          ↓
+7. Use AI assistance when useful
+          ↓
+8. Review the suggested solution
+          ↓
+9. Modify and integrate the solution
+          ↓
+10. Retest the affected feature
+          ↓
+11. Check related functionality
+```
+
+This process was repeated throughout development.
+
+---
+
+# 💬 Examples of Prompts Used
+
+The following are representative examples of the type of assistance requested during development.
+
+## Debugging
+
+```text
+Why is Firebase Authentication giving this module import error?
+ConfirmationResult is not exported from firebase/auth.
+Explain the correct TypeScript import and what needs to change.
+```
+
+## Firebase Error Investigation
+
+```text
+Firebase Phone Authentication is returning
+auth/billing-not-enabled.
+Explain what this error means and whether the problem
+is in my frontend implementation or Firebase configuration.
+```
+
+## Responsive Design
+
+```text
+The mobile layout matches the reference, but the desktop
+version does not use the available space properly.
+Suggest Tailwind responsive changes without redesigning
+the existing page.
+```
+
+## Routing
+
+```text
+My Favourite page works at one route but not another.
+Help me identify why React Router is not resolving
+the Favourite navigation consistently.
+```
+
+## Authentication UI
+
+```text
+I need the authentication hero image to remain at the top
+on both mobile and desktop. Help me make the image responsive
+without moving it to the side on desktop.
+```
+
+## Splash Screen
+
+```text
+I want the splash screen to appear before the welcome page
+when the application starts. Show how to integrate it into
+the existing React Router flow.
+```
+
+The prompts were used to obtain technical explanations and implementation guidance, after which the resulting suggestions were reviewed and adapted to the actual project.
+
+---
+
+# 🔧 What I Changed After AI Suggestions
+
+AI suggestions were not always used exactly as provided.
+
+Implementation decisions were made based on:
+
+* Project requirements
+* Existing code structure
+* Figma reference
+* Firebase limitations
+* Browser and terminal errors
+* Manual testing
+* Responsive behaviour
+* Required technology stack
+
+For example, the original Firebase Phone Authentication approach was changed after testing showed that real SMS authentication would require billing.
+
+Rather than forcing that implementation into the project, I replaced the SMS-dependent portion with a demo OTP flow while preserving the intended authentication experience.
+
+Similarly, responsive layout suggestions were adapted to the existing UI instead of replacing the application's design.
+
+---
+
+# 🤝 AI Usage Approach
+
+AI was used as a **development assistant**, not as the sole developer of the application.
+
+The final implementation involved:
+
+* Manual project setup
+* React component development
+* TypeScript implementation
+* Tailwind styling
+* React Router configuration
+* Zustand state management
+* Product and cart functionality
+* Authentication integration
+* Responsive layout implementation
+* Testing and debugging
+* Error investigation
+* Manual verification
+
+AI assistance was mainly used when a second technical perspective, debugging explanation, or implementation suggestion was useful.
+
+All significant AI-assisted changes were reviewed, integrated into the existing project, and tested before being kept.
+
+The final code reflects the project's requirements and implementation decisions rather than unreviewed AI-generated output.
