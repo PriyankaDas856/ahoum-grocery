@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { sendOtp } from '../lib/phoneAuth'
 
 type CountryOption = {
   name: string
@@ -79,7 +78,7 @@ function MobileNumber() {
 
   const [sending, setSending] = useState(false)
 
-  const handleContinue = async () => {
+  const handleContinue = () => {
     const cleanedPhone = phone.replace(/\D/g, '')
 
     if (cleanedPhone.length !== selectedCountry.digits) {
@@ -94,9 +93,10 @@ function MobileNumber() {
 
     const fullPhoneNumber = `${selectedCountry.code}${cleanedPhone}`
 
-    try {
-      await sendOtp(fullPhoneNumber)
-
+    // Demo authentication.
+    // No Firebase SMS is used.
+    // The OTP is always 123456.
+    setTimeout(() => {
       navigate('/auth/otp', {
         state: {
           phone: fullPhoneNumber,
@@ -104,68 +104,9 @@ function MobileNumber() {
           countryCode: selectedCountry.code,
         },
       })
-    } catch (requestError: unknown) {
-      console.error('Firebase OTP error:', requestError)
 
-      if (
-        requestError &&
-        typeof requestError === 'object' &&
-        'code' in requestError
-      ) {
-        const firebaseError = requestError as {
-          code?: string
-        }
-
-        switch (firebaseError.code) {
-          case 'auth/invalid-phone-number':
-            setError(
-              'This phone number is not valid.',
-            )
-            break
-
-          case 'auth/too-many-requests':
-            setError(
-              'Too many attempts. Please try again later.',
-            )
-            break
-
-          case 'auth/quota-exceeded':
-            setError(
-              'SMS limit reached. Please try again later.',
-            )
-            break
-
-          case 'auth/operation-not-allowed':
-            setError(
-              'Phone authentication is not enabled in Firebase.',
-            )
-            break
-
-          case 'auth/unauthorized-domain':
-            setError(
-              'This website is not authorized in Firebase.',
-            )
-            break
-
-          case 'auth/captcha-check-failed':
-            setError(
-              'Security verification failed. Please try again.',
-            )
-            break
-
-          default:
-            setError(
-              'Unable to send OTP. Please try again.',
-            )
-        }
-      } else {
-        setError(
-          'Unable to send OTP. Please try again.',
-        )
-      }
-    } finally {
       setSending(false)
-    }
+    }, 500)
   }
 
   const handlePhoneChange = (
@@ -190,9 +131,6 @@ function MobileNumber() {
 
   return (
     <div className="min-h-screen bg-white px-5 pt-5">
-      {/* Invisible Firebase reCAPTCHA */}
-      <div id="recaptcha-container" />
-
       {/* Back */}
       <button
         type="button"
@@ -340,7 +278,7 @@ function MobileNumber() {
           </p>
         )}
 
-        {/* Sending message */}
+        {/* Demo OTP message */}
         {sending && (
           <p className="mt-4 text-xs text-[#53B175]">
             Sending verification code...

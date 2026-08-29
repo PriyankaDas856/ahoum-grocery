@@ -3,10 +3,8 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom'
-import {
-  sendOtp,
-  verifyOtp,
-} from '../lib/phoneAuth'
+
+const DEMO_OTP = '123456'
 
 function Otp() {
   const navigate = useNavigate()
@@ -48,7 +46,7 @@ function Otp() {
     setError('')
   }
 
-  const handleContinue = async () => {
+  const handleContinue = () => {
     if (code.length !== 6) {
       setError(
         'Please enter the 6-digit verification code.',
@@ -59,64 +57,24 @@ function Otp() {
     setVerifying(true)
     setError('')
 
-    try {
-      await verifyOtp(code)
-
-      navigate('/auth/location', {
-        replace: true,
-      })
-    } catch (requestError: unknown) {
-      console.error(
-        'Firebase OTP verification error:',
-        requestError,
-      )
-
-      if (
-        requestError &&
-        typeof requestError === 'object' &&
-        'code' in requestError
-      ) {
-        const firebaseError =
-          requestError as {
-            code?: string
-          }
-
-        switch (firebaseError.code) {
-          case 'auth/invalid-verification-code':
-            setError(
-              'Incorrect verification code. Please try again.',
-            )
-            break
-
-          case 'auth/code-expired':
-            setError(
-              'This verification code has expired. Please request a new one.',
-            )
-            break
-
-          case 'auth/session-expired':
-            setError(
-              'Your verification session has expired. Please request a new OTP.',
-            )
-            break
-
-          default:
-            setError(
-              'Unable to verify the code. Please try again.',
-            )
-        }
+    // Demo authentication.
+    // The correct OTP is always 123456.
+    window.setTimeout(() => {
+      if (code === DEMO_OTP) {
+        navigate('/auth/location', {
+          replace: true,
+        })
       } else {
         setError(
-          'Unable to verify the code. Please try again.',
+          'Incorrect verification code. Demo code is 123456.',
         )
+        setVerifying(false)
       }
-    } finally {
-      setVerifying(false)
-    }
+    }, 400)
   }
 
-  const handleResend = async () => {
-    if (!phone || seconds > 0 || resending) {
+  const handleResend = () => {
+    if (seconds > 0 || resending) {
       return
     }
 
@@ -124,56 +82,16 @@ function Otp() {
     setError('')
     setCode('')
 
-    try {
-      await sendOtp(phone)
-
+    // Demo resend.
+    // No SMS or Firebase request is made.
+    window.setTimeout(() => {
       setSeconds(25)
+      setResending(false)
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         inputRef.current?.focus()
       }, 100)
-    } catch (requestError: unknown) {
-      console.error(
-        'Firebase resend OTP error:',
-        requestError,
-      )
-
-      if (
-        requestError &&
-        typeof requestError === 'object' &&
-        'code' in requestError
-      ) {
-        const firebaseError =
-          requestError as {
-            code?: string
-          }
-
-        switch (firebaseError.code) {
-          case 'auth/too-many-requests':
-            setError(
-              'Too many attempts. Please wait before requesting another code.',
-            )
-            break
-
-          case 'auth/quota-exceeded':
-            setError(
-              'SMS limit reached. Please try again later.',
-            )
-            break
-
-          default:
-            setError(
-              'Unable to resend the code. Please try again.',
-            )
-        }
-      } else {
-        setError(
-          'Unable to resend the code. Please try again.',
-        )
-      }
-    } finally {
-      setResending(false)
-    }
+    }, 400)
   }
 
   const formattedPhone = phone
@@ -251,6 +169,11 @@ function Otp() {
             {error}
           </p>
         )}
+
+        {/* Demo code hint */}
+        <p className="mt-4 text-xs text-[#9B9B9B]">
+          Demo code: <span className="font-semibold text-[#53B175]">123456</span>
+        </p>
 
         {/* Resend */}
         <div className="mt-7 text-sm">

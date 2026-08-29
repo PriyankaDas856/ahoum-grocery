@@ -32,7 +32,10 @@ function Auth() {
       )
 
       if (result.user) {
-        navigate('/home', { replace: true })
+        // Google authentication → Location → Home
+        navigate('/auth/location', {
+          replace: true,
+        })
       }
     } catch (error: unknown) {
       console.error(
@@ -81,7 +84,7 @@ function Auth() {
         <button
           type="button"
           onClick={() => navigate('/auth/phone')}
-          className="mt-7 flex h-12 w-full items-center border-b border-[#E2E2E2] text-left transition focus:outline-none focus:ring-2 focus:ring-[#53B175] focus:ring-offset-2 sm:mt-8"
+          className="mt-7 flex h-12 w-full items-center border-b border-[#E2E2E2] text-left transition hover:border-[#53B175] focus:outline-none focus:ring-2 focus:ring-[#53B175] focus:ring-offset-2 sm:mt-8"
         >
           <span className="mr-3 text-lg">
             🇮🇳
